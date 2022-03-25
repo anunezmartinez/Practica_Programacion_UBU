@@ -20,10 +20,8 @@ int main()
     }
 
     int opcion = solicitarOpcionMenu();
-    //Bug, aunque la validacion no sea correcta, opcion recibe el valor de uno.
+    // Bug, aunque la validacion no sea correcta, opcion recibe el valor de uno.
     selecionarOpcion(opcion);
-    
-    
 
     return 0;
 }
@@ -40,7 +38,7 @@ int solicitarOpcionMenu()
     printf("Introduce tu opción : ");
     scanf("%d", &myInt);
 
-    //Este código tiene que ser refactorizado que da un poco de cáncer.
+    // Este código tiene que ser refactorizado que da un poco de cáncer.
 
     if (myInt < 5 && myInt > -1)
     {
@@ -54,14 +52,9 @@ int solicitarOpcionMenu()
 
 void selecionarOpcion(int seleccion)
 {
-
-    int bucle = 1;
-    while (bucle != 0)
-    {
         switch (seleccion)
         {
         case 0:
-            bucle = 0;
             break;
         case 1:
             contarCaracteres(fptr);
@@ -73,11 +66,11 @@ void selecionarOpcion(int seleccion)
             filaMasLarga(fptr);
             break;
         }
-    }
+    
 }
 int contarCaracteres(FILE *archivo)
 {
-    //No compatible con .cvs
+    // No compatible con .cvs
 
     int count = 0;
     char c;
@@ -91,27 +84,21 @@ int contarCaracteres(FILE *archivo)
 }
 int numeroTotalFilas(FILE *archivo)
 {
-    //Bug, se repite en bucle a pesar de terminar el while(?).
-    
-    char line[200];
-    int count = 0;
-    while (fgets(line, sizeof(line), archivo)){
-        
-        char *token;
+    FILE *fp = fopen("../Datos.csv", "r");
+    int ch = 0;
+    int lines = 0;
 
-        token = strtok(line, ",");
-        count++;
-        while(token != NULL){
-
-            token = strtok(NULL, ",");
+    lines++;
+    while (!feof(fp))
+    {
+        ch = fgetc(fp);
+        if (ch == '\n')
+        {
+            lines++;
         }
-
-        printf("\nNumero de Lineas %i\n", count);
-
-        
     }
-    fclose(archivo);
-    
+    fclose(fp);
+    printf("El numero de lineas es %i", lines);
 }
 int filaMasLarga(FILE *archivo)
 {
