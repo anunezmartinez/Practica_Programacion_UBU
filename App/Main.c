@@ -70,8 +70,6 @@ void selecionarOpcion(int seleccion)
 }
 int contarCaracteres(FILE *archivo)
 {
-    // No compatible con .cvs
-
     int count = 0;
     char c;
 
@@ -80,7 +78,8 @@ int contarCaracteres(FILE *archivo)
         count = count + 1;
     }
 
-    return printf("Hay un total de %i caracteres.", count);
+    printf("Hay un total de %i caracteres.\n", count);
+    return count;
 }
 int numeroTotalFilas(FILE *archivo)
 {
@@ -98,7 +97,8 @@ int numeroTotalFilas(FILE *archivo)
         }
     }
     fclose(fp);
-    printf("El numero de lineas es %i", lines);
+    printf("El numero de lineas es %i\n", lines - 1);
+    return lines;
 }
 int filaMasLarga(FILE *archivo)
 {
