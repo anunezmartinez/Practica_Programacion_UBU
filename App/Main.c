@@ -20,16 +20,27 @@ int main()
     }
 
     int opcion = solicitarOpcionMenu();
+    //Bug, aunque la validacion no sea correcta, opcion recibe el valor de uno.
     selecionarOpcion(opcion);
+    
+    
 
     return 0;
 }
 
 int solicitarOpcionMenu()
 {
+    printf("Introduce la opción que desees\n");
+    printf("1 - Contar el numero de caracteres del fichero\n");
+    printf("2 - El número de lineas del fichero.\n");
+    printf("3 - La fila mas larga.\n");
+    printf("0 - Salir.\n");
+
     int myInt = 0;
-    printf("Introduce la opción a elegir : ");
+    printf("Introduce tu opción : ");
     scanf("%d", &myInt);
+
+    //Este código tiene que ser refactorizado que da un poco de cáncer.
 
     if (myInt < 5 && myInt > -1)
     {
@@ -37,7 +48,7 @@ int solicitarOpcionMenu()
     }
     else
     {
-        printf("Error.");
+        printf("Error en la elección.");
     }
 }
 
@@ -66,6 +77,7 @@ void selecionarOpcion(int seleccion)
 }
 int contarCaracteres(FILE *archivo)
 {
+    //No compatible con .cvs
 
     int count = 0;
     char c;
@@ -79,6 +91,8 @@ int contarCaracteres(FILE *archivo)
 }
 int numeroTotalFilas(FILE *archivo)
 {
+    //Bug, se repite en bucle a pesar de terminar el while(?).
+    
     char line[200];
     int count = 0;
     while (fgets(line, sizeof(line), archivo)){
