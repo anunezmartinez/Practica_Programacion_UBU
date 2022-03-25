@@ -48,6 +48,7 @@ int solicitarOpcionMenu()
     {
         printf("Error en la elección.");
     }
+    return myInt;
 }
 
 void selecionarOpcion(int seleccion)
@@ -102,6 +103,7 @@ int numeroTotalFilas(FILE *archivo)
 }
 int filaMasLarga(FILE *archivo)
 {
+    int filaLarga = 0;
 
-    // return filasLarga;
+    return filaLarga;
 }
