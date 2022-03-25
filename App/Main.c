@@ -21,6 +21,8 @@ int main()
 
     int opcion = solicitarOpcionMenu();
     // Bug, aunque la validacion no sea correcta, opcion recibe el valor de uno.
+    // Se podría repetir la validación o añadir una funcion que valide los datos pero no sería ni óptimo ni correcto.
+    // Fuck no se me ocurre :(
     selecionarOpcion(opcion);
 
     return 0;
@@ -71,6 +73,7 @@ void selecionarOpcion(int seleccion)
 }
 int contarCaracteres(FILE *archivo)
 {
+    //Funcion incompeleta, tiene que filtar por solo carácteres alfanuméricos.
     int count = 0;
     char c;
 
@@ -98,6 +101,7 @@ int numeroTotalFilas(FILE *archivo)
         }
     }
     fclose(fp);
+    //Solución chustera de cojones, -1 para restar la línea de la cabezera. Cambiar inizialización de variable.
     printf("El numero de lineas es %i\n", lines - 1);
     return lines;
 }
