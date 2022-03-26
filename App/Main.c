@@ -19,11 +19,7 @@ int main()
         printf("Error, el archivo no ha podido ser abierto.");
     }
 
-    int opcion = solicitarOpcionMenu();
-    // Bug, aunque la validacion no sea correcta, opcion recibe el valor de uno.
-    // Se podría repetir la validación o añadir una funcion que valide los datos pero no sería ni óptimo ni correcto.
-    // Fuck no se me ocurre :(
-    selecionarOpcion(opcion);
+    solicitarOpcionMenu();
 
     return 0;
 }
@@ -44,11 +40,11 @@ int solicitarOpcionMenu()
 
     if (myInt < 5 && myInt > -1)
     {
-        return myInt;
+        selecionarOpcion(myInt);
     }
     else
     {
-        printf("Error en la elección.");
+        printf("Error en la elección.\n");
     }
     return myInt;
 }
@@ -79,6 +75,7 @@ int contarCaracteres(FILE *archivo)
 
     for (c = getc(archivo); c != EOF; c = getc(archivo))
     {
+        //Hacer un if -si caracter es alfanumérico -> sumar contador-
         count = count + 1;
     }
 
@@ -87,21 +84,19 @@ int contarCaracteres(FILE *archivo)
 }
 int numeroTotalFilas(FILE *archivo)
 {
-    FILE *fp = fopen("../Datos.csv", "r");
     int ch = 0;
     int lines = 0;
 
     lines++;
-    while (!feof(fp))
+    while (!feof(archivo))
     {
-        ch = fgetc(fp);
+        ch = fgetc(archivo);
         if (ch == '\n')
         {
             lines++;
         }
     }
-    fclose(fp);
-    //Solución chustera de cojones, -1 para restar la línea de la cabezera. Cambiar inizialización de variable.
+    fclose(archivo);
     printf("El numero de lineas es %i\n", lines - 1);
     return lines;
 }
