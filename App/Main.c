@@ -14,12 +14,6 @@ FILE *fptr;
 int main()
 {
 
-    fptr = fopen("../Datos.csv", "r");
-    if (fptr == NULL)
-    {
-        printf("Error, el archivo no ha podido ser abierto.");
-    }
-
     solicitarOpcionMenu();
 
     return 0;
@@ -27,31 +21,46 @@ int main()
 
 int solicitarOpcionMenu()
 {
-    printf("Introduce la opción que desees\n");
-    printf("1 - Contar el numero de caracteres del fichero\n");
-    printf("2 - El número de lineas del fichero.\n");
-    printf("3 - La fila mas larga.\n");
-    printf("0 - Salir.\n");
-
     int myInt = 0;
-    printf("Introduce tu opción : ");
-    scanf("%d", &myInt);
-
-    // Este código tiene que ser refactorizado que da un poco de cáncer.
-
-    if (myInt < 5 && myInt > -1)
+    char loop = 'y';
+    do
     {
-        selecionarOpcion(myInt);
-    }
-    else
-    {
-        printf("Error en la elección.\n");
-    }
+        fptr = fopen("../Datos.csv", "r");
+        if (fptr == NULL)
+        {
+            printf("Error, el archivo no ha podido ser abierto.");
+        }
+
+        printf("Introduce la opción que desees\n");
+        printf("1 - Contar el numero de caracteres del fichero\n");
+        printf("2 - El número de lineas del fichero.\n");
+        printf("3 - La fila mas larga.\n");
+        printf("0 - Salir.\n");
+
+        printf("Introduce tu opción : ");
+        scanf("%d", &myInt);
+
+        // Este código tiene que ser refactorizado que da un poco de cáncer.
+
+        if (myInt < 5 && myInt > -1)
+        {
+            selecionarOpcion(myInt);
+        }
+        else
+        {
+            printf("Error en la elección.\n");
+        }
+        printf("\n Quieres continuar?(y/n)\n");
+        scanf("\n %c", &loop);
+
+    } while (loop == 'y');
+
     return myInt;
 }
 
 void selecionarOpcion(int seleccion)
 {
+
     switch (seleccion)
     {
     case 0:
@@ -67,6 +76,7 @@ void selecionarOpcion(int seleccion)
         break;
     }
 }
+
 int contarCaracteres(FILE *archivo)
 {
     int count = 0;
@@ -82,7 +92,7 @@ int contarCaracteres(FILE *archivo)
 
     printf("Hay un total de %i caracteres.\n", count);
     fclose(archivo);
-    
+
     return count;
 }
 int numeroTotalFilas(FILE *archivo)
@@ -101,13 +111,12 @@ int numeroTotalFilas(FILE *archivo)
     }
     fclose(archivo);
     printf("El numero de lineas es %i\n", lines - 1);
-    
+
     return lines;
 }
 int filaMasLarga(FILE *archivo)
 {
     int filaLarga = 0;
 
-    
     return filaLarga;
 }
