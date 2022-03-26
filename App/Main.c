@@ -81,6 +81,8 @@ int contarCaracteres(FILE *archivo)
     }
 
     printf("Hay un total de %i caracteres.\n", count);
+    fclose(archivo);
+    
     return count;
 }
 int numeroTotalFilas(FILE *archivo)
@@ -99,11 +101,13 @@ int numeroTotalFilas(FILE *archivo)
     }
     fclose(archivo);
     printf("El numero de lineas es %i\n", lines - 1);
+    
     return lines;
 }
 int filaMasLarga(FILE *archivo)
 {
     int filaLarga = 0;
 
+    
     return filaLarga;
 }
