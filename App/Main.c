@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 int solicitarOpcionMenu();
 void selecionarOpcion(int);
@@ -51,32 +52,32 @@ int solicitarOpcionMenu()
 
 void selecionarOpcion(int seleccion)
 {
-        switch (seleccion)
-        {
-        case 0:
-            break;
-        case 1:
-            contarCaracteres(fptr);
-            break;
-        case 2:
-            numeroTotalFilas(fptr);
-            break;
-        case 3:
-            filaMasLarga(fptr);
-            break;
-        }
-    
+    switch (seleccion)
+    {
+    case 0:
+        break;
+    case 1:
+        contarCaracteres(fptr);
+        break;
+    case 2:
+        numeroTotalFilas(fptr);
+        break;
+    case 3:
+        filaMasLarga(fptr);
+        break;
+    }
 }
 int contarCaracteres(FILE *archivo)
 {
-    //Funcion incompeleta, tiene que filtar por solo carácteres alfanuméricos.
     int count = 0;
     char c;
 
     for (c = getc(archivo); c != EOF; c = getc(archivo))
     {
-        //Hacer un if -si caracter es alfanumérico -> sumar contador-
-        count = count + 1;
+        if (isalnum(c))
+        {
+            count = count + 1;
+        }
     }
 
     printf("Hay un total de %i caracteres.\n", count);
