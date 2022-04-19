@@ -30,29 +30,31 @@ int solicitarOpcionMenu()
         {
             printf("Error, el archivo no ha podido ser abierto.");
         }
-
-        printf("Introduce la opción que desees\n");
-        printf("1 - Contar el numero de caracteres del fichero\n");
-        printf("2 - El número de lineas del fichero.\n");
-        printf("3 - La fila mas larga.\n");
-        printf("0 - Salir.\n");
-
-        printf("Introduce tu opción : ");
-        scanf("%d", &myInt);
-
-        // Este código tiene que ser refactorizado que da un poco de cáncer.
-
-        if (myInt < 5 && myInt > -1)
-        {
-            selecionarOpcion(myInt);
-        }
         else
         {
-            printf("Error en la elección.\n");
+
+            printf("Introduce la opción que desees\n");
+            printf("1 - Contar el numero de caracteres del fichero\n");
+            printf("2 - El número de lineas del fichero.\n");
+            printf("3 - La fila mas larga.\n");
+            printf("0 - Salir.\n");
+
+            printf("Introduce tu opción : ");
+            scanf("%d", &myInt);
+
+            // Este código tiene que ser refactorizado que da un poco de cáncer.
+
+            if (myInt < 5 && myInt > -1)
+            {
+                selecionarOpcion(myInt);
+            }
+            else
+            {
+                printf("Error en la elección.\n");
+            }
         }
         printf("\n Quieres continuar?(y/n)\n");
         scanf("\n %c", &loop);
-
     } while (loop == 'y');
 
     return myInt;
