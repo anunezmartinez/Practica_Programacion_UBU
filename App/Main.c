@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
+#include <string.h>
 
 int solicitarOpcionMenu();
 void selecionarOpcion(int);
@@ -116,27 +116,26 @@ int numeroTotalFilas(FILE *archivo)
 }
 int filaMasLarga(FILE *archivo)
 {
-    //Hay que implementar esta wea.
-    /*
-    FILE *fp;
-  char str[100],longest[100];
-  int len=0;
-  fp=fopen("abc.txt","r");
-  if(fp==NULL)
-  {
-      printf("Error");
-      return 0;
-  }
-  while(fgets(str,sizeof(str),fp)!=NULL)
-  {
-     if(len<strlen(str))
-     {
-         strcpy(longest,str);
-         len=strlen(str);
-     }
-  }
-  printf("Longest Line is %s",longest);
-  */
+
+    char str[1000], longest[1000];
+    int len = 0;
+    int count = 0;
+
+    while (fgets(str, sizeof(str), archivo) != NULL)
+    {
+        count++;
+        if (count != 1)
+        {
+            if (len < strlen(str))
+            {
+                strcpy(longest, str);
+                len = strlen(str);
+            }
+        }
+    }
+
+    printf("Longest Line is %s", longest);
+
     int filaLarga = 0;
 
     return filaLarga;
