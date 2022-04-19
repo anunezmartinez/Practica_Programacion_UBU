@@ -116,6 +116,27 @@ int numeroTotalFilas(FILE *archivo)
 }
 int filaMasLarga(FILE *archivo)
 {
+    //Hay que implementar esta wea.
+    /*
+    FILE *fp;
+  char str[100],longest[100];
+  int len=0;
+  fp=fopen("abc.txt","r");
+  if(fp==NULL)
+  {
+      printf("Error");
+      return 0;
+  }
+  while(fgets(str,sizeof(str),fp)!=NULL)
+  {
+     if(len<strlen(str))
+     {
+         strcpy(longest,str);
+         len=strlen(str);
+     }
+  }
+  printf("Longest Line is %s",longest);
+  */
     int filaLarga = 0;
 
     return filaLarga;
