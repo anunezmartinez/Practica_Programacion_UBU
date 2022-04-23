@@ -42,15 +42,13 @@ int solicitarOpcionMenu()
             printf("Introduce tu opción : ");
             scanf("%d", &myInt);
 
-            // Este código tiene que ser refactorizado que da un poco de cáncer.
-
-            if (myInt < 5 && myInt > -1)
+            if (isdigit(myInt) && (myInt < 5 && myInt > -1))
             {
                 selecionarOpcion(myInt);
             }
             else
             {
-                printf("Error en la elección.\n");
+                printf("\nError en la elección.\n");
             }
         }
         printf("\n Quieres continuar?(y/n)\n");
@@ -83,16 +81,22 @@ int contarCaracteres(FILE *archivo)
 {
     int count = 0;
     char c;
+    int charCount = 0;
 
     for (c = getc(archivo); c != EOF; c = getc(archivo))
     {
-        if (isalnum(c))
+        if (c == '\n')
         {
-            count = count + 1;
+            count ++;
+        } else if(count >= 1){
+            if (isalnum(c))
+            {
+                charCount = charCount + 1;
+            }
         }
     }
 
-    printf("Hay un total de %i caracteres.\n", count);
+    printf("Hay un total de %i caracteres.\n", charCount);
     fclose(archivo);
 
     return count;
