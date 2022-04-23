@@ -25,8 +25,8 @@ int solicitarOpcionMenu()
     char loop = 'y';
     do
     {
-        fptr = fopen("../Datos.csv", "r");
-        if (fptr == NULL)
+        fptr = fopen("../Datos.csv", "r");//Abrimos el fichero con el que vamos a trabajar.
+        if (fptr == NULL)//Validamos la apertura del fichero.
         {
             printf("Error, el archivo no ha podido ser abierto.");
         }
@@ -41,11 +41,11 @@ int solicitarOpcionMenu()
 
             printf("Introduce tu opción : ");
 
-            if (scanf("%d", &myInt) == 1)
+            if (scanf("%d", &myInt) == 1) //Verificamos que el input es un numero.
             {
-                if (myInt < 5 && myInt > -1)
+                if (myInt < 5 && myInt > -1) //Verificamos que el input está en el rango que nos interesa.
                 {
-                    selecionarOpcion(myInt);
+                    selecionarOpcion(myInt);//Una vez validado en input, se lo pasamos a seleccionarOpcion().
                 }
                 else
                 {
