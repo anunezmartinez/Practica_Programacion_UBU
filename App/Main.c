@@ -40,19 +40,26 @@ int solicitarOpcionMenu()
             printf("0 - Salir.\n");
 
             printf("Introduce tu opción : ");
-            scanf("%d", &myInt);
 
-            if (isdigit(myInt) && (myInt < 5 && myInt > -1))
+            if (scanf("%d", &myInt) == 1)
             {
-                selecionarOpcion(myInt);
+                if (myInt < 5 && myInt > -1)
+                {
+                    selecionarOpcion(myInt);
+                }
+                else
+                {
+                    printf("El numero introducido está fuera de rango.");
+                }
             }
             else
             {
-                printf("\nError en la elección.\n");
+                printf("\nEl dato introducido es erroneo.\n");
             }
         }
+        fflush(stdin);
         printf("\n Quieres continuar?(y/n)\n");
-        scanf("\n %c", &loop);
+        scanf(" %c", &loop);
     } while (loop == 'y');
 
     return myInt;
@@ -87,8 +94,10 @@ int contarCaracteres(FILE *archivo)
     {
         if (c == '\n')
         {
-            count ++;
-        } else if(count >= 1){
+            count++;
+        }
+        else if (count >= 1)
+        {
             if (isalnum(c))
             {
                 charCount = charCount + 1;
