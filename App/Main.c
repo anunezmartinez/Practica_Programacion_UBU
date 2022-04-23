@@ -58,7 +58,7 @@ int solicitarOpcionMenu()
             }
         }
         fflush(stdin);
-        printf("\n Quieres continuar?(y/n)\n");
+        printf("\n Quieres continuar?(y/cualquier otro input)\n");
         scanf(" %c", &loop);
     } while (loop == 'y');
 
@@ -149,7 +149,7 @@ int filaMasLarga(FILE *archivo)
         }
     }
 
-    printf("Longest Line is %s", longest);
+    printf("La linea mas larga es la línea %i y su contenido es : \n%s", count, longest);
 
     int filaLarga = 0;
 
