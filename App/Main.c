@@ -150,7 +150,6 @@ int filaMasLarga(FILE *archivo)
     int len = 0;
     int count = 0;
     char str2[1000], longest2[1000];
-    int len2 = 0;
     int count2 = 0;
 
     while (fgets(str, sizeof(str), archivo) != NULL) // Recorremos el fichero linea por linea.
@@ -159,24 +158,22 @@ int filaMasLarga(FILE *archivo)
         if (count != 1) /*Hacemos una condicion tipo if, que solo se de una vez el contador superer el valor de 1, de forma que el contador se incrementa en uno a cada linea.
                         Así nos saltamos la primera línea, que es caso de tenerla en cuenta sería la mas larga*/
         {
-            if (54 == strlen(str)) // Vamos comparando la longitud de una linea con la siguiente hasta terminar el fichero y quedarnos con la mas larga.
+            if (len < strlen(str)) // Vamos comparando la longitud de una linea con la siguiente hasta terminar el fichero y quedarnos con la mas larga.
             {
                 strcpy(longest, str);
                 len = strlen(str);
-                printf("%i \n %i \n %s", len, count, longest);
             }
         }
     }
-    printf("len : %i", len);
+    fseek(archivo, 0, SEEK_SET);
 
     while (fgets(str2, sizeof(str2), archivo) != NULL) // Recorremos el fichero linea por linea.
     {
-        printf("hola hola");
-
+        count2++;
         if (len == strlen(str2))
         {
             strcpy(longest2, str2);
-            printf("Linea : %s", longest2);
+            printf("\nLinea %i con el contenido:  \n%s",count2, longest2);
         }
     }
 
