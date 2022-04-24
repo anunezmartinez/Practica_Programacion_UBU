@@ -14,7 +14,7 @@
 
 // Prototpios de funciones.
 int solicitarOpcionMenu();
-void selecionarOpcion(int);
+void seleccionarOpcion(int);
 int contarCaracteres(FILE *);
 int numeroTotalFilas(FILE *);
 int filaMasLarga(FILE *);
@@ -27,8 +27,14 @@ int main()
     return 0;
 }
 
-/*Esta funcion abre el fichero con el que vamos y trabajar y valida su apertura, también muestra las opciones al usuario en un bucle retulizable y
-valida el input de usuario.*/
+/*!
+ * @function    solicitarOpcionMenu
+ * @abstract    Lista de opciones para el usuario.
+ * @discussion  Esta funcion muestra el usuario un listado de opciones a elegir en un menu,
+                además está dentro de un bucle reutilizable. También valida el input del usuario.
+ * @param       Sin parámetros.
+ * @return      int
+*/
 int solicitarOpcionMenu()
 {
     int myInt = 0;
@@ -68,8 +74,15 @@ int solicitarOpcionMenu()
     return myInt;
 }
 
-// Esta funcion llama al resto de funciones en base a la eleccion el usuario, tambien tiene un la opción de deter la ejecución.
-void selecionarOpcion(int seleccion)
+/*!
+ * @function    seleccionarOpcion
+ * @abstract    Abre el fichero y llamada a las funciones.
+ * @discussion  Esta funcion envía a las funciones el valor elegido por el usuario en la funcion solicitarOpcionMenu(), abre el fichero con el que vamos
+                a trabajar y valida su correcta apertura.
+ * @param       int
+ * @return      void
+*/
+void seleccionarOpcion(int seleccion)
 {
     FILE *fptr;
     fptr = fopen("../Datos.csv", "r");
@@ -93,8 +106,14 @@ void selecionarOpcion(int seleccion)
         break;
     }
 }
-/* Esta funcion cuenta los caracteres del fichero que son de tipo alfanumérico exclusivamente, es decir, sin comas ni espacios.
-Tambien discrimina la primera línea que es la cabezera */
+
+/*!
+ * @function    contarCaracteres
+ * @abstract    Muestra el numereo de carácteres.
+ * @discussion  Esta funcion cuenta el total de caracteres el fichero que son estrictamente alfanumericos y saltándose la cabezera del mismo.
+ * @param       FILE
+ * @return      int
+*/
 int contarCaracteres(FILE *archivo)
 {
     int count = 0;
@@ -121,8 +140,14 @@ int contarCaracteres(FILE *archivo)
 
     return count;
 }
-/*Esta funcion cuenta el numero total de filas, lo que hace es contar cuantas veces encuentra una \n y lo va acumulando en un acumulador hasta
-llegar al final del fichero.*/
+
+/*!
+ * @function    numeroTotalFilas
+ * @abstract    Cuenta el numero total de filas.
+ * @discussion  Esta funcion cuenta el total de filas del fichero saltándose la cabezera del mismo.
+ * @param       FILE
+ * @return      int
+*/
 int numeroTotalFilas(FILE *archivo)
 {
     int ch = 0;
@@ -142,7 +167,14 @@ int numeroTotalFilas(FILE *archivo)
 
     return lines;
 }
-// Esta función lo que hace es mostrar cual es la linea mas larga de todo el programa
+
+/*!
+ * @function    filaMasLarga
+ * @abstract    Muestra la linea(s) mas larga(s) del fichero.
+ * @discussion  Esta funcion muestra la linea mas larga del fichero saltándose la cabezera del mismo.
+ * @param       FILE
+ * @return      int
+*/
 int filaMasLarga(FILE *archivo)
 {
 
@@ -158,19 +190,20 @@ int filaMasLarga(FILE *archivo)
         if (count != 1) /*Hacemos una condicion tipo if, que solo se de una vez el contador superer el valor de 1, de forma que el contador se incrementa en uno a cada linea.
                         Así nos saltamos la primera línea, que es caso de tenerla en cuenta sería la mas larga*/
         {
-            if (len < strlen(str)) // Vamos comparando la longitud de una linea con la siguiente hasta terminar el fichero y quedarnos con la mas larga.
+            if (len < strlen(str)) /*Vamos comparando la longitud de una linea con la siguiente hasta terminar el fichero y quedarnos 
+                                    con el numero de caracteres de la linea larga.*/
             {
                 strcpy(longest, str);
                 len = strlen(str);
             }
         }
     }
-    fseek(archivo, 0, SEEK_SET);
+    fseek(archivo, 0, SEEK_SET); //Reseteamos el puntero de vuelta al principio de fichero para volver a leerlo.
 
     while (fgets(str2, sizeof(str2), archivo) != NULL) // Recorremos el fichero linea por linea.
     {
         count2++;
-        if (len == strlen(str2))
+        if (len == strlen(str2)) //Ahora que sabemos como de larga (en numero de caracteres) es la linea mas larga, recorremos el fichero en busca de esa linea o lineas.
         {
             strcpy(longest2, str2);
             printf("\nLinea %i con el contenido:  \n%s",count2, longest2);
