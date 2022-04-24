@@ -19,9 +19,6 @@ int contarCaracteres(FILE *);
 int numeroTotalFilas(FILE *);
 int filaMasLarga(FILE *);
 
-//Declaramos una variable tipo fichero de forma global.
-FILE *fptr;
-
 int main()
 {
 
@@ -38,13 +35,6 @@ int solicitarOpcionMenu()
     char loop = 'y';
     do
     {
-        fptr = fopen("../Datos.csv", "r");//Abrimos el fichero con el que vamos a trabajar.
-        if (fptr == NULL)//Validamos la apertura del fichero.
-        {
-            printf("Error, el archivo no ha podido ser abierto.");
-        }
-        else
-        {
             //Menu de eleccion.
             printf("Introduce la opción que desees\n");
             printf("1 - Contar el numero de caracteres del fichero\n");
@@ -69,7 +59,7 @@ int solicitarOpcionMenu()
             {   //En caso de que el valor introducido no sea un numero, muestra un mensaje de error.
                 printf("\nEl dato introducido es erroneo.\n");
             }
-        }
+        
         fflush(stdin); //Limpiamos el buffer.
         printf("\n Quieres continuar?(y/cualquier otro input)\n");//Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
         scanf(" %c", &loop);
@@ -81,6 +71,12 @@ int solicitarOpcionMenu()
 //Esta funcion llama al resto de funciones en base a la eleccion el usuario, tambien tiene un la opción de deter la ejecución.
 void selecionarOpcion(int seleccion)
 {
+    FILE *fptr;
+    fptr = fopen("../Datos.csv", "r");
+    if (fptr == NULL)
+    {
+        printf("Error, el archivo no ha podido ser abierto.");
+    }
 
     switch (seleccion)
     {
