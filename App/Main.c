@@ -172,7 +172,6 @@ int numeroTotalFilas(FILE *archivo)
     int ch = 0;
     int lines = 0;
 
-    lines++;
     while (!feof(archivo))
     {
         ch = fgetc(archivo);
