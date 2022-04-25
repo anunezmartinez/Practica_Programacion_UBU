@@ -226,7 +226,7 @@ int filaMasLarga(FILE *archivo)
         {
             strcpy(longest2, str2);
 
-            printf("\nLinea %i con el contenido:  \n%s", count2, longest2);
+            printf("\nLinea(s) mas larga(s) con  %i caracteres son las línas:\nLínea %i con el contenido:\n%s", len, count2, longest2);
         }
     }
 
