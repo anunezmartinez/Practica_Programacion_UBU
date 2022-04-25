@@ -19,6 +19,12 @@ int contarCaracteres(FILE *);
 int numeroTotalFilas(FILE *);
 int filaMasLarga(FILE *);
 
+// Declaramos constantes para los colores.
+#define ANSI_COLOR_RED "\x1b[31m"
+#define ANSI_COLOR_GREEN "\x1b[32m"
+#define ANSI_COLOR_WHITE "\x1b[37m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+
 int main()
 {
 
@@ -44,9 +50,7 @@ int solicitarOpcionMenu()
 
         // Menu de eleccion.
 
-        printf("\033[0;37m"); // Añadimos colores al los outputs, esta linea se repite mucho porque no se pueden usar variables globales.
-        printf("\nIntroduce la opción que desees\n");
-        printf("\033[0;37m");
+        printf(ANSI_COLOR_WHITE "\nIntroduce la opción que desees\n" ANSI_COLOR_WHITE);
 
         printf("\033[0;32m");
         printf("\n1 - Contar el numero de caracteres del fichero\n");
@@ -54,35 +58,32 @@ int solicitarOpcionMenu()
         printf("3 - La fila mas larga.\n");
         printf("0 - Salir.\n");
         // Le solicitamos al usuario un input y lo validamos.
-        printf("\033[0;37m");
-        printf("\nIntroduce tu opción : ");
-        printf("\033[0;37m");
         printf("\033[0;32m");
+
+        printf(ANSI_COLOR_WHITE "\nIntroduce tu opción : " ANSI_COLOR_WHITE);
 
         if (scanf("%d", &myInt) == 1) // Verificamos que el input es un numero.
         {
-            if (myInt < 5 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
+            if (myInt < 4 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
             {
                 seleccionarOpcion(myInt); // Una vez validado en input, se lo pasamos a seleccionarOpcion().
             }
             else
             { // En caso de que el numero esté fuera del rango de eleccion, muestra un mensaje de errror.
-                printf("\033[0;31m");
-                printf("El numero introducido está fuera de rango.");
-                printf("\033[0;31m");
+
+                printf(ANSI_COLOR_RED "El numero introducido está fuera de rango." ANSI_COLOR_RED);
             }
         }
         else
         { // En caso de que el valor introducido no sea un numero, muestra un mensaje de error.
-            printf("\033[0;31m");
-            printf("\nEl dato introducido es erroneo.\n");
-            printf("\033[0;31m");
+
+            printf(ANSI_COLOR_RED "\nEl dato introducido es erroneo.\n" ANSI_COLOR_RED);
         }
 
         fflush(stdin); // Limpiamos el buffer.
-        printf("\033[0;37m");
-        printf("\nQuieres continuar?(y / Cualquier otro input para salir)\n"); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
-        printf("\033[0;37m");
+
+        printf(ANSI_COLOR_WHITE "\nQuieres continuar?(y / Cualquier otro input para salir)\n" ANSI_COLOR_WHITE); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
+
         scanf(" %c", &loop);
     } while (loop == 'y');
 
@@ -99,29 +100,49 @@ int solicitarOpcionMenu()
 */
 void seleccionarOpcion(int seleccion)
 {
-    FILE *fptr = fopen("../Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
-    if (fptr == NULL)
+    FILE *fptr;
+
+    switch (seleccion) // En base a la opcion seleccionada por el usuario, llamamos a su correspondiente funcion.
     {
-        printf("\033[0;31m");
-        printf("Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()");
-        printf("\033[0;31m");
-    }
-    else
-    {
-        switch (seleccion) // En base a la opcion seleccionada por el usuario, llamamos a su correspondiente funcion.
+    case 0:
+        break;
+    case 1:
+        fptr = fopen("../Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        if (fptr == NULL)
         {
-        case 0:
-            break;
-        case 1:
-            contarCaracteres(fptr);
-            break;
-        case 2:
-            numeroTotalFilas(fptr);
-            break;
-        case 3:
-            filaMasLarga(fptr);
-            break;
+
+            printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
         }
+        else
+        {
+            contarCaracteres(fptr);
+        }
+
+        break;
+    case 2:
+        fptr = fopen("../Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        if (fptr == NULL)
+        {
+            printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
+        }
+        else
+        {
+            numeroTotalFilas(fptr);
+        }
+
+        break;
+    case 3:
+        fptr = fopen("../Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        if (fptr == NULL)
+        {
+            printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
+        }
+        else
+        {
+            filaMasLarga(fptr);
+        }
+
+        break;
     }
 }
 
@@ -137,6 +158,7 @@ int contarCaracteres(FILE *archivo)
     int count = 0;
     char c;
     int charCount = 0;
+
     // Declaramos un bucle que vaya hasta el final de fichero, caracter por caracter.
     for (c = getc(archivo); c != EOF; c = getc(archivo))
     {
@@ -153,7 +175,7 @@ int contarCaracteres(FILE *archivo)
         }
     }
 
-    printf("\nHay un total de %i caracteres.\n", charCount);
+    printf(ANSI_COLOR_GREEN "\nHay un total de %i caracteres.\n" ANSI_COLOR_GREEN, charCount);
 
     fclose(archivo); // Cerramos el archivo.
 
@@ -172,7 +194,6 @@ int numeroTotalFilas(FILE *archivo)
     int ch = 0;
     int lines = 0;
 
-    lines++;
     while (!feof(archivo))
     {
         ch = fgetc(archivo);
@@ -181,8 +202,8 @@ int numeroTotalFilas(FILE *archivo)
             lines++;
         }
     }
-    fclose(archivo);                                    // Cerramos el fichero.
-    printf("\nEl numero de lineas es %i\n", lines - 1); // Como no nos saltamos la primera linea como tal, le restamos 1 al total.
+    fclose(archivo);                                                                      // Cerramos el fichero.
+    printf(ANSI_COLOR_GREEN "\nEl numero de lineas es %i\n" ANSI_COLOR_GREEN, lines - 1); // Como no nos saltamos la primera linea como tal, le restamos 1 al total.
 
     return 0; // Si la ejecución ha sido correcta devolvemos cero.
 }
@@ -218,18 +239,17 @@ int filaMasLarga(FILE *archivo)
         }
     }
     fseek(archivo, 0, SEEK_SET); // Reseteamos el puntero de vuelta al principio de fichero para volver a leerlo.
-    printf("\033[0;37m");
-    printf("\nLinea(s) mas larga(s) tiene(n)  %i caracteres y son las lína(s):\n", len);
-    printf("\033[0;37m");
+
+    printf(ANSI_COLOR_WHITE "\nLinea(s) mas larga(s) tiene(n)  %i caracteres y son las lína(s):\n" ANSI_COLOR_WHITE, len);
+
     while (fgets(str2, sizeof(str2), archivo) != NULL) // Recorremos el fichero linea por linea.
     {
         count2++;
         if (len == strlen(str2)) // Ahora que sabemos como de larga (en numero de caracteres) es la linea mas larga, recorremos el fichero en busca de esa linea o lineas.
         {
             strcpy(longest2, str2);
-            printf("\033[0;32m");
-            printf("\nLínea %i con el contenido:\n%s", count2, longest2);
-            printf("\033[0;32m");
+
+            printf(ANSI_COLOR_GREEN "\nLínea %i con el contenido:\n%s" ANSI_COLOR_GREEN, count2, longest2);
         }
     }
 
