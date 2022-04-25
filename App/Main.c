@@ -61,7 +61,7 @@ int solicitarOpcionMenu()
 
         if (scanf("%d", &myInt) == 1) // Verificamos que el input es un numero.
         {
-            if (myInt < 5 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
+            if (myInt < 4 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
             {
                 seleccionarOpcion(myInt); // Una vez validado en input, se lo pasamos a seleccionarOpcion().
             }
