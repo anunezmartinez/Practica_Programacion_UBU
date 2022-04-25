@@ -41,33 +41,41 @@ int solicitarOpcionMenu()
     char loop = 'y';
     do
     {
+        printf("\033[0;32m");
         // Menu de eleccion.
-        printf("Introduce la opción que desees\n");
-        printf("1 - Contar el numero de caracteres del fichero\n");
+        printf("\nIntroduce la opción que desees\n");
+        printf("\n1 - Contar el numero de caracteres del fichero\n");
         printf("2 - El número de lineas del fichero.\n");
         printf("3 - La fila mas larga.\n");
         printf("0 - Salir.\n");
         // Le solicitamos al usuario un input y lo validamos.
-        printf("Introduce tu opción : ");
+        printf("\nIntroduce tu opción : ");
+        printf("\033[0;32m");
 
         if (scanf("%d", &myInt) == 1) // Verificamos que el input es un numero.
         {
             if (myInt < 5 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
             {
-                selecionarOpcion(myInt); // Una vez validado en input, se lo pasamos a seleccionarOpcion().
+                seleccionarOpcion(myInt); // Una vez validado en input, se lo pasamos a seleccionarOpcion().
             }
             else
             { // En caso de que el numero esté fuera del rango de eleccion, muestra un mensaje de errror.
+                printf("\033[0;31m");
                 printf("El numero introducido está fuera de rango.");
+                printf("\033[0;31m");
             }
         }
         else
         { // En caso de que el valor introducido no sea un numero, muestra un mensaje de error.
+            printf("\033[0;31m");
             printf("\nEl dato introducido es erroneo.\n");
+            printf("\033[0;31m");
         }
 
         fflush(stdin);                                             // Limpiamos el buffer.
+        printf("\033[0;32m");
         printf("\n Quieres continuar?(y/cualquier otro input)\n"); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
+        printf("\033[0;32m");
         scanf(" %c", &loop);
     } while (loop == 'y');
 
@@ -88,7 +96,9 @@ void seleccionarOpcion(int seleccion)
     fptr = fopen("../Datos.csv", "r");
     if (fptr == NULL)
     {
+        printf("\033[0;31m");
         printf("Error, el archivo no ha podido ser abierto.");
+        printf("\033[0;31m");
     }
 
     switch (seleccion)
@@ -113,7 +123,7 @@ void seleccionarOpcion(int seleccion)
  * @discussion  Esta funcion cuenta el total de caracteres el fichero que son estrictamente alfanumericos y saltándose la cabezera del mismo.
  * @param       FILE
  * @return      int
-*/
+ */
 int contarCaracteres(FILE *archivo)
 {
     int count = 0;
@@ -136,9 +146,10 @@ int contarCaracteres(FILE *archivo)
     }
 
     printf("Hay un total de %i caracteres.\n", charCount);
+
     fclose(archivo); // Cerramos el archivo.
 
-    return count;
+    return 0;
 }
 
 /*!
@@ -147,7 +158,7 @@ int contarCaracteres(FILE *archivo)
  * @discussion  Esta funcion cuenta el total de filas del fichero saltándose la cabezera del mismo.
  * @param       FILE
  * @return      int
-*/
+ */
 int numeroTotalFilas(FILE *archivo)
 {
     int ch = 0;
@@ -165,7 +176,7 @@ int numeroTotalFilas(FILE *archivo)
     fclose(archivo);                                  // Cerramos el fichero.
     printf("El numero de lineas es %i\n", lines - 1); // Como no nos saltamos la primera linea como tal, le restamos 1 al total.
 
-    return lines;
+    return 0;
 }
 
 /*!
@@ -174,7 +185,7 @@ int numeroTotalFilas(FILE *archivo)
  * @discussion  Esta funcion muestra la linea mas larga del fichero saltándose la cabezera del mismo.
  * @param       FILE
  * @return      int
-*/
+ */
 int filaMasLarga(FILE *archivo)
 {
 
@@ -190,7 +201,7 @@ int filaMasLarga(FILE *archivo)
         if (count != 1) /*Hacemos una condicion tipo if, que solo se de una vez el contador superer el valor de 1, de forma que el contador se incrementa en uno a cada linea.
                         Así nos saltamos la primera línea, que es caso de tenerla en cuenta sería la mas larga*/
         {
-            if (len < strlen(str)) /*Vamos comparando la longitud de una linea con la siguiente hasta terminar el fichero y quedarnos 
+            if (len < strlen(str)) /*Vamos comparando la longitud de una linea con la siguiente hasta terminar el fichero y quedarnos
                                     con el numero de caracteres de la linea larga.*/
             {
                 strcpy(longest, str);
@@ -198,21 +209,20 @@ int filaMasLarga(FILE *archivo)
             }
         }
     }
-    fseek(archivo, 0, SEEK_SET); //Reseteamos el puntero de vuelta al principio de fichero para volver a leerlo.
+    fseek(archivo, 0, SEEK_SET); // Reseteamos el puntero de vuelta al principio de fichero para volver a leerlo.
 
     while (fgets(str2, sizeof(str2), archivo) != NULL) // Recorremos el fichero linea por linea.
     {
         count2++;
-        if (len == strlen(str2)) //Ahora que sabemos como de larga (en numero de caracteres) es la linea mas larga, recorremos el fichero en busca de esa linea o lineas.
+        if (len == strlen(str2)) // Ahora que sabemos como de larga (en numero de caracteres) es la linea mas larga, recorremos el fichero en busca de esa linea o lineas.
         {
             strcpy(longest2, str2);
-            printf("\nLinea %i con el contenido:  \n%s",count2, longest2);
+
+            printf("\nLinea %i con el contenido:  \n%s", count2, longest2);
+
         }
     }
 
     fclose(archivo); // Cerramos el fichero.
-
-    int filaLarga = 0;
-
-    return filaLarga;
+    return 0;
 }
