@@ -44,7 +44,7 @@ int solicitarOpcionMenu()
 
         // Menu de eleccion.
 
-        printf("\033[0;37m");
+        printf("\033[0;37m");//Añadimos colores al los outputs, esta linea se repite mucho porque no se pueden usar variables globales.
         printf("\nIntroduce la opción que desees\n");
         printf("\033[0;37m");
 
@@ -81,7 +81,7 @@ int solicitarOpcionMenu()
 
         fflush(stdin); // Limpiamos el buffer.
         printf("\033[0;37m");
-        printf("\nQuieres continuar?(y/cualquier otro input)\n"); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
+        printf("\nQuieres continuar?(y / Cualquier otro input para salir)\n"); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
         printf("\033[0;37m");
         scanf(" %c", &loop);
     } while (loop == 'y');
@@ -99,7 +99,7 @@ int solicitarOpcionMenu()
 */
 void seleccionarOpcion(int seleccion)
 {
-    FILE *fptr = fopen("../Datos.csv", "r");
+    FILE *fptr = fopen("../Datos.csv", "r");//Abrimos el fichero y validamos su apertura.
     if (fptr == NULL)
     {
         printf("\033[0;31m");
@@ -108,7 +108,7 @@ void seleccionarOpcion(int seleccion)
     }
     else
     {
-        switch (seleccion)
+        switch (seleccion)//En base a la opcion seleccionada por el usuario, llamamos a su correspondiente funcion.
         {
         case 0:
             break;
@@ -157,7 +157,7 @@ int contarCaracteres(FILE *archivo)
 
     fclose(archivo); // Cerramos el archivo.
 
-    return 0;
+    return 0;//Si la ejecución ha sido correcta devolvemos cero.
 }
 
 /*!
@@ -184,7 +184,7 @@ int numeroTotalFilas(FILE *archivo)
     fclose(archivo);                                    // Cerramos el fichero.
     printf("\nEl numero de lineas es %i\n", lines - 1); // Como no nos saltamos la primera linea como tal, le restamos 1 al total.
 
-    return 0;
+    return 0;//Si la ejecución ha sido correcta devolvemos cero.
 }
 
 /*!
@@ -231,5 +231,5 @@ int filaMasLarga(FILE *archivo)
     }
 
     fclose(archivo); // Cerramos el fichero.
-    return 0;
+    return 0;//Si la ejecución ha sido correcta devolvemos cero.
 }
