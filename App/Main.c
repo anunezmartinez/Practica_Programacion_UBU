@@ -105,9 +105,10 @@ void seleccionarOpcion(int seleccion)
     switch (seleccion) // En base a la opcion seleccionada por el usuario, llamamos a su correspondiente funcion.
     {
     case 0:
+        exit(0);
         break;
     case 1:
-        fptr = fopen("../Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
 
@@ -120,7 +121,7 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 2:
-        fptr = fopen("../Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
@@ -132,7 +133,7 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 3:
-        fptr = fopen("../Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
