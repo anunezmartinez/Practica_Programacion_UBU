@@ -151,7 +151,7 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 4:
-        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("DatosTelefonosMoviles.csv", "a+"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
@@ -275,24 +275,72 @@ int filaMasLarga(FILE *archivo)
     fclose(archivo); // Cerramos el fichero.
     return 0;        // Si la ejecución ha sido correcta devolvemos cero.
 }
+/*
+– battery_power: Entero;Valor en el rango[0; 5000].
+– blue: Booleano.
+– clock_speed: Decimal; Valor en el rango[0; 4.0].
+– dual_sim: Booleano.
+– fc: Entero; Valor en el rango[0; 20].
+– four_g: Booleano.
+– int_memory: Entero; Valor en el rango [2; 128].
+– m_dep: Decimal; Valor en el rango [0.1; 2.0].
+– mobile_wt: Entero; Valor en el rango [50; 500].
+– n_cores: Entero; Valor en el rango [1; 16].
+– pc: Entero; Valor en el rango [0; 40].
+– ram: Entero; Valor en el rango [128; 2560].
+– sc_h: Entero; Valor en el rango[0; 100].
+– sc_w: Entero; Valor en el rango[0; 100].
+– brand: Cadena de Caracteres.
+*/
 
 int añadirFila(FILE *archivo)
 {
+    // int numleido
+    // validamos numleido
+    // volvemos a pedir nuevo numleido
+    // and again
+    // En la ultima opcion mostrarmos menuMarcasMovil();
+
+    // una vez está validado todo, lo enviamos al fichero para escribirlo
+
+    int op = 0;
+    char enter = 0;
+
+    int numLeido = scanf("%i %c", &op, &enter);
+    int correcto = validarEntero(op, numLeido, 0, 4, enter);
 
     return 0;
 }
 
 bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
 {
-    
-
-    return enter;
+    if (leidos == 2)
+    {
+        if (num >= lim_inf && num <= lim_sup)
+        {
+            return true;
+        }else{
+            return false;
+            printf("El numero está fuera de rango.");
+        }
+    }
+    else
+    {
+        printf("El input no ha leido correctamente.");
+        return false;
+    }
 }
 
 bool validaReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
 {
 
-    return enter;
+    if (num >= lim_inf && num <= lim_sup)
+    {
+
+        return true;
+    }
+
+    return false;
 }
 
 int menuMarcasMoviles()
@@ -346,7 +394,9 @@ int menuMarcasMoviles()
             {
                 printf("El numero introducido está fuera de rango.");
             }
-        } else{
+        }
+        else
+        {
             printf("El dato introducido no es un número.");
         }
     } while (loop == 0);
