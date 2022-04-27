@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 
 // Prototpios de funciones.
 int solicitarOpcionMenu();
@@ -18,6 +19,10 @@ void seleccionarOpcion(int);
 int contarCaracteres(FILE *);
 int numeroTotalFilas(FILE *);
 int filaMasLarga(FILE *);
+int añadirFila(FILE *);
+bool validarEntero(int, int, int, int, char);
+bool validaReal(float, float, float, int, char);
+int menuMarcasMoviles();
 
 // Declaramos constantes para los colores.
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -56,6 +61,7 @@ int solicitarOpcionMenu()
         printf("\n1 - Contar el numero de caracteres del fichero\n");
         printf("2 - El número de lineas del fichero.\n");
         printf("3 - La fila mas larga.\n");
+        printf("4 - Añadir nueva fila.\n");
         printf("0 - Salir.\n");
         // Le solicitamos al usuario un input y lo validamos.
         printf("\033[0;32m");
@@ -64,7 +70,7 @@ int solicitarOpcionMenu()
 
         if (scanf("%d", &myInt) == 1) // Verificamos que el input es un numero.
         {
-            if (myInt < 4 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
+            if (myInt < 5 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
             {
                 seleccionarOpcion(myInt); // Una vez validado en input, se lo pasamos a seleccionarOpcion().
             }
@@ -133,6 +139,18 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 3:
+        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        if (fptr == NULL)
+        {
+            printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
+        }
+        else
+        {
+            filaMasLarga(fptr);
+        }
+
+        break;
+    case 4:
         fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
@@ -256,4 +274,80 @@ int filaMasLarga(FILE *archivo)
 
     fclose(archivo); // Cerramos el fichero.
     return 0;        // Si la ejecución ha sido correcta devolvemos cero.
+}
+
+int añadirFila(FILE *archivo)
+{
+
+    return 0;
+}
+
+bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
+{
+    
+
+    return enter;
+}
+
+bool validaReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
+{
+
+    return enter;
+}
+
+int menuMarcasMoviles()
+{
+    int seleccion = 0;
+
+    printf("1 - Apple");
+    printf("2 - HTC");
+    printf("3 - LG");
+    printf("4 - Nokia");
+    printf("5 - Samsung");
+    printf("6 - Xiaomi");
+    printf("7 - ZTE");
+
+    printf("Selecciona una opcion de la lista.");
+    int loop = 0;
+    do
+    {
+        if (scanf("%i", &seleccion) == 1)
+        {
+            if (seleccion < 8 && seleccion > -1)
+            {
+                switch (seleccion)
+                {
+                case 1:
+                    printf("Has seleccionado Apple");
+                    break;
+                case 2:
+                    printf("Has seleccionado HTC");
+                    break;
+                case 3:
+                    printf("Has seleccionado LG");
+                    break;
+                case 4:
+                    printf("Has seleccionado Nokia");
+                    break;
+                case 5:
+                    printf("Has seleccionado Samsung");
+                    break;
+                case 6:
+                    printf("Has seleccionado Xiaomi");
+                    break;
+                case 7:
+                    printf("Has seleccionado ZTE");
+                    break;
+                }
+                loop = 1;
+                return seleccion;
+            }
+            else
+            {
+                printf("El numero introducido está fuera de rango.");
+            }
+        } else{
+            printf("El dato introducido no es un número.");
+        }
+    } while (loop == 0);
 }
