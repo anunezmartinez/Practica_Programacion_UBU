@@ -355,14 +355,22 @@ bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
 
 bool validaReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
 {
-
-    if (num >= lim_inf && num <= lim_sup)
+if (leidos == 2)
     {
-        printf("1");
-        return true;
+        if (num >= lim_inf && num <= lim_sup)
+        {
+            printf("Número válido.");
+            return true;
+        }else{
+            printf("El numero está fuera de rango.");
+            return false;
+        }
     }
-    printf("0");
-    return false;
+    else
+    {
+        printf("El input no ha leido correctamente.");
+        return false;
+    }
 }
 
 int menuMarcasMoviles()
