@@ -275,25 +275,8 @@ int filaMasLarga(FILE *archivo)
     fclose(archivo); // Cerramos el fichero.
     return 0;        // Si la ejecución ha sido correcta devolvemos cero.
 }
-/*
-– battery_power: Entero;Valor en el rango[0; 5000].
-– blue: Booleano.
-– clock_speed: Decimal; Valor en el rango[0; 4.0].
-– dual_sim: Booleano.
-– fc: Entero; Valor en el rango[0; 20].
-– four_g: Booleano.
-– int_memory: Entero; Valor en el rango [2; 128].
-– m_dep: Decimal; Valor en el rango [0.1; 2.0].
-– mobile_wt: Entero; Valor en el rango [50; 500].
-– n_cores: Entero; Valor en el rango [1; 16].
-– pc: Entero; Valor en el rango [0; 40].
-– ram: Entero; Valor en el rango [128; 2560].
-– sc_h: Entero; Valor en el rango[0; 100].
-– sc_w: Entero; Valor en el rango[0; 100].
-– brand: Cadena de Caracteres.
-*/
 
-int añadirFila(FILE *archivo)
+int añadirFila(FILE *archivo) //Poco eficiente, crear una función para pedir datos exclusivamente.
 {
     // int numleido
     // validamos numleido
@@ -323,10 +306,37 @@ int añadirFila(FILE *archivo)
     printf("%d %s", num, str);
     printf("Valores leidos : %i\n", leidos);
     printf("Numero leido : %i\n", num);
-    printf("Enter presionado : %s", lf); //Si aparece un salto de línea es que si se ha leído.
-    
+    printf("Enter presionado : %s", lf); // Si aparece un salto de línea es que si se ha leído.
+
     bool correcto = validarEntero(num, 0, 4, leidos, *lf);
     printf("%d", correcto);
+
+    /*
+– battery_power: Entero;Valor en el rango[0; 5000].
+    printf("Introduce la capacidad de la batería en mAh(0-5000)")
+
+    if(correcto = validarEntero(num, 0 , 5000, leidos, *lf)){
+
+    }
+
+
+
+
+– blue: Booleano.
+– clock_speed: Decimal; Valor en el rango[0; 4.0].
+– dual_sim: Booleano.
+– fc: Entero; Valor en el rango[0; 20].
+– four_g: Booleano.
+– int_memory: Entero; Valor en el rango [2; 128].
+– m_dep: Decimal; Valor en el rango [0.1; 2.0].
+– mobile_wt: Entero; Valor en el rango [50; 500].
+– n_cores: Entero; Valor en el rango [1; 16].
+– pc: Entero; Valor en el rango [0; 40].
+– ram: Entero; Valor en el rango [128; 2560].
+– sc_h: Entero; Valor en el rango[0; 100].
+– sc_w: Entero; Valor en el rango[0; 100].
+– brand: Cadena de Caracteres.
+*/
 
     return 0;
 }
@@ -355,13 +365,15 @@ bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
 
 bool validaReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
 {
-if (leidos == 2)
+    if (leidos == 2)
     {
         if (num >= lim_inf && num <= lim_sup)
         {
             printf("Número válido.");
             return true;
-        }else{
+        }
+        else
+        {
             printf("El numero está fuera de rango.");
             return false;
         }
