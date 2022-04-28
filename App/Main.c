@@ -151,14 +151,14 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 4:
-        fptr = fopen("DatosTelefonosMoviles.csv", "a+"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("../Datos.csv", "a+"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
         }
         else
         {
-            filaMasLarga(fptr);
+            añadirFila(fptr);
         }
 
         break;
@@ -303,11 +303,30 @@ int añadirFila(FILE *archivo)
 
     // una vez está validado todo, lo enviamos al fichero para escribirlo
 
-    int op = 0;
-    char enter = 0;
+    int num = 0;
+    char str[128], *lf;
+    char enter = str[1];
+    int c;
+    int leidos = 0;
 
-    int numLeido = scanf("%i %c", &op, &enter);
-    int correcto = validarEntero(op, numLeido, 0, 4, enter);
+    leidos = scanf("%d", &num);
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    fgets(str, sizeof(str), stdin);
+
+    if ((lf = strchr(str, '\n')) != NULL)
+    {
+        *lf = '\n';
+        leidos++;
+    }
+
+    printf("%d %s", num, str);
+    printf("Valores leidos : %i\n", leidos);
+    printf("Numero leido : %i\n", num);
+    printf("Enter presionado : %s", lf); //Si aparece un salto de línea es que si se ha leído.
+    
+    bool correcto = validarEntero(num, 0, 4, leidos, *lf);
+    printf("%d", correcto);
 
     return 0;
 }
@@ -318,15 +337,18 @@ bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
     {
         if (num >= lim_inf && num <= lim_sup)
         {
+            printf("El numero leido es valido.");
             return true;
-        }else{
-            return false;
+        }
+        else
+        {
             printf("El numero está fuera de rango.");
+            return false;
         }
     }
     else
     {
-        printf("El input no ha leido correctamente.");
+        printf("El input no se ha leido correctamente.");
         return false;
     }
 }
@@ -336,10 +358,10 @@ bool validaReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
 
     if (num >= lim_inf && num <= lim_sup)
     {
-
+        printf("1");
         return true;
     }
-
+    printf("0");
     return false;
 }
 
@@ -400,4 +422,6 @@ int menuMarcasMoviles()
             printf("El dato introducido no es un número.");
         }
     } while (loop == 0);
+
+    return 0;
 }
