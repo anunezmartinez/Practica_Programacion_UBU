@@ -278,7 +278,7 @@ int filaMasLarga(FILE *archivo)
 
 int añadirFila(FILE *archivo)
 {
-    
+
     int loop = 1;
     int verificador = 13;
     do
@@ -535,7 +535,7 @@ int añadirFila(FILE *archivo)
             *lf = '\n';
             leidos++;
         }
-        if (!(validarEntero(ram, 0, 40, leidos, *lf)))
+        if (!(validarEntero(ram, 128, 2560, leidos, *lf)))
         {
             verificador--;
         }
@@ -576,52 +576,60 @@ int añadirFila(FILE *archivo)
             verificador--;
         }
 
-    char brand[1500];
-    int marca = menuMarcasMoviles();
-    if (marca == 1)
-    {
-        brand[50] = "Apple";
-    }
-    else if (marca == 2)
-    {
-        brand[100] = "HTC";
-    }
-    else if (marca == 3)
-    {
-        brand[150] = "LG";
-    }
-    else if (marca == 4)
-    {
-        brand[200] = "Nokia";
-    }
-    else if (marca == 5)
-    {
-        brand[250] = "Samsung";
-    }
-    else if (marca == 6)
-    {
-        brand[350] = "Xiaomi";
-    }
-    else if (marca == 7)
-    {
-        brand[400] = "ZTE";
-    }
-    printf("%c", brand[150]);
+        char destino[50];
+        int marca = menuMarcasMoviles();
+        if (marca == 1)
+        {
+            char marca[] = "Apple";
+            strcpy(destino, marca);
+        }
+        else if (marca == 2)
+        {
+            char marca[] = "HTC";
+            strcpy(destino, marca);
+        }
+        else if (marca == 3)
+        {
+            char marca[] = "LG";
+            strcpy(destino, marca);
+        }
+        else if (marca == 4)
+        {
+            char marca[] = "Nokia";
+            strcpy(destino, marca);
+        }
+        else if (marca == 5)
+        {
+            char marca[] = "Samsung";
+            strcpy(destino, marca);
+        }
+        else if (marca == 6)
+        {
+            char marca[] = "Xiaomi";
+            strcpy(destino, marca);
+        }
+        else if (marca == 7)
+        {
+            char marca[] = "ZTE";
+            strcpy(destino, marca);
+        }
+        if (!(verificador == 0))
+        {
+            printf("Uno de los datos introducidos fue incorrecto.");
+        }
+        else if (verificador == 0)
+        {
+            FILE *fs = fopen("Datos.csv", "a");
+            if (fs == NULL)
+            {
+                printf("Couldn't open file\n");
+            }
+            fprintf(fs,"\n%d,%d,%f,%d,%d,%d,%d,%f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans,clock_speed,ans1,fc,ans2,int_memory,m_dep,mobile_wt,n_cores,pc,ram,sc_h,sc_w,destino);
+        }
 
-    /*
-    if (!(verificador == 13))
-    {
-        printf("Uno de los datos introducidos fue incorrecto.");
-    }
-    else if (verificador == 13)
-    {
+    } while (loop == 1);
 
-
-    }
-
-} while (loop == 1);
-
-return 0;*/
+    return 0;
 }
 
 bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
@@ -712,6 +720,7 @@ int menuMarcasMoviles()
                     printf("\nHas seleccionado ZTE\n");
                     break;
                 }
+
                 return seleccion;
             }
             else
@@ -722,9 +731,8 @@ int menuMarcasMoviles()
         else
         {
             printf("El dato introducido no es un número.");
-            loop = 1;
         }
     } while (loop == 0);
 
-    return 0;
+    return seleccion;
 }
