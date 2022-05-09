@@ -30,6 +30,8 @@ int menuMarcasMoviles();
 #define ANSI_COLOR_WHITE "\x1b[37m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 
+#define SIZE (1024 * 1024)
+
 int main()
 {
 
@@ -151,7 +153,7 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 4:
-        fptr = fopen("../Datos.csv", "a+"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("Datos.csv", "rb"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
@@ -613,18 +615,31 @@ int añadirFila(FILE *archivo)
             char marca[] = "ZTE";
             strcpy(destino, marca);
         }
-        if (!(verificador == 0))
+        if (!(verificador == 13))
         {
             printf("Uno de los datos introducidos fue incorrecto.");
+            printf("%d", verificador);
         }
-        else if (verificador == 0)
+        else if (verificador == 13)
         {
-            FILE *fs = fopen("Datos.csv", "a");
-            if (fs == NULL)
+
+            FILE *archivo2;
+            archivo2 = fopen("Datos2.csv", "wb");
+            char c;
+
+            fseek(archivo, 0, SEEK_SET);
+            fseek(archivo2, 0, SEEK_SET);
+
+            while ((c = fgetc(archivo)) != EOF)
             {
-                printf("Couldn't open file\n");
+                    fputc(c, archivo2);
             }
-            fprintf(fs,"\n%d,%d,%f,%d,%d,%d,%d,%f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans,clock_speed,ans1,fc,ans2,int_memory,m_dep,mobile_wt,n_cores,pc,ram,sc_h,sc_w,destino);
+
+            fprintf(archivo2, "\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
+
+            printf("\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
+            printf("\nNueva linea añadida al fichero.\n");
+            loop = 0;
         }
 
     } while (loop == 1);
