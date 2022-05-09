@@ -70,7 +70,7 @@ int solicitarOpcionMenu()
 
         printf(ANSI_COLOR_WHITE "\nIntroduce tu opción : " ANSI_COLOR_WHITE);
 
-        if (scanf("%d", &myInt) == 1) // Verificamos que el input es un numero.
+        if (scanf("%i", &myInt) == 1) // Verificamos que el input es un numero.
         {
             if (myInt < 5 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
             {
@@ -88,11 +88,11 @@ int solicitarOpcionMenu()
             printf(ANSI_COLOR_RED "\nEl dato introducido es erroneo.\n" ANSI_COLOR_RED);
         }
 
-        fflush(stdin); // Limpiamos el buffer.
+        // fflush(stdin); // Limpiamos el buffer.
 
         printf(ANSI_COLOR_WHITE "\nQuieres continuar?(y / Cualquier otro input para salir)\n" ANSI_COLOR_WHITE); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
 
-        scanf(" %c", &loop);
+        scanf("%c", &loop);
     } while (loop == 'y');
 
     return myInt;
@@ -153,7 +153,7 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 4:
-        fptr = fopen("Datos.csv", "rb"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
@@ -622,20 +622,16 @@ int añadirFila(FILE *archivo)
         }
         else if (verificador == 13)
         {
+            FILE *fp2 = fopen("Datos2.csv", "w");
 
-            FILE *archivo2;
-            archivo2 = fopen("Datos2.csv", "wb");
             char c;
-
-            fseek(archivo, 0, SEEK_SET);
-            fseek(archivo2, 0, SEEK_SET);
 
             while ((c = fgetc(archivo)) != EOF)
             {
-                    fputc(c, archivo2);
+                fputc(c, fp2);
             }
 
-            fprintf(archivo2, "\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
+            fprintf(fp2, "%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
 
             printf("\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
             printf("\nNueva linea añadida al fichero.\n");
