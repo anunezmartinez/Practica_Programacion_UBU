@@ -278,15 +278,27 @@ int filaMasLarga(FILE *archivo)
     return 0;        // Si la ejecución ha sido correcta devolvemos cero.
 }
 
+/*!
+ * @function    añadirFila
+ * @abstract    Añade una fila al fichero. Este nuevo fichero una copia del original.
+ * @discussion  Esta funcion muestra el usuario un listado de opciones a elegir de las carácterísticas
+ *              de los telefonos del archivo csv. Valida su entrada.
+ * @param       FILE.
+ * @return      int
+*/
+
 int añadirFila(FILE *archivo)
 {
+        //Declaramos las variables que vamos a utilizar.
 
         int fc, int_memory, mobile_wt, n_cores, pc, ram, sc_h, sc_w = 0;
         int battery_power = 0;
         float clock_speed, m_dep = 0;
         char str[128], *lf;
         int leidos = 0;
+        
 
+        //Y le vamos a ir pidiendo al usuario los diferentes datos, validandolo con validarEntero() o validarReal().
         printf("\nIntroduce la cantidad de batería, número entero entre 0 y 5000.\n");
 
         do
@@ -550,6 +562,8 @@ int añadirFila(FILE *archivo)
             }
         } while (!(validarEntero(sc_w, 0, 100, leidos, *lf)));
 
+        //Aqui le pedimos al usuario que eliga entre un numero de marcas de teléfonos, dependiendo de lo
+        //que el usuario seleccione, enviaremos el nombre de esa marca a char destino.
         char destino[50];
         int marca = menuMarcasMoviles();
         if (marca == 1)
@@ -588,8 +602,11 @@ int añadirFila(FILE *archivo)
             strcpy(destino, marca);
         }
 
+        //Ahora que ya tenemos todos los datos correctos y validados, creamos un nuevo archivo usando ¨w¨.
+
         FILE *fp2 = fopen("Datos2.csv", "w");
 
+        //Leemos caracter por caracter nuestro fichero y lo copiamos a este nuevo.
         char c;
 
         while ((c = fgetc(archivo)) != EOF)
@@ -597,6 +614,8 @@ int añadirFila(FILE *archivo)
             fputc(c, fp2);
         }
 
+
+        //Una vez está creado, añadimos al final de fichero una nueva lina con la variables introducidas anteriormente.
         fprintf(fp2, "%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
 
         printf("\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
@@ -606,6 +625,13 @@ int añadirFila(FILE *archivo)
     return 0;
 }
 
+/*!
+ * @function    validarEntero
+ * @abstract    Valida input.
+ * @discussion  Esta funcion valida los datos enteros introducidos por el usuario, verificando que se ha pulsado enter, el limite superior e inferior y leidos es = 2.
+ * @param       int, int, int, int , int, char.
+ * @return      bool
+*/
 bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
 {
     if (leidos == 2)
@@ -631,6 +657,13 @@ bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
     }
 }
 
+/*!
+ * @function    validarReal
+ * @abstract    Valida input.
+ * @discussion  Esta funcion valida los datos reales introducidos por el usuario, verificando que se ha pulsado enter, el limite superior e inferior y leidos es = 2.
+ * @param       int, int, int, int , int, char.
+ * @return      bool
+*/
 bool validarReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
 {
     if (leidos == 2)
@@ -655,6 +688,14 @@ bool validarReal(float num, float lim_inf, float lim_sup, int leidos, char enter
     }
 }
 
+/*!
+ * @function    menuMarcasMoviles
+ * @abstract    Muesta unalLista de opciones para el usuario.
+ * @discussion  Esta funcion muestra el usuario un listado de opciones a elegir en un menu de marcas de telefonos,
+                además está dentro de un bucle reutilizable. También valida el input del usuario.
+ * @param       Sin parámetros.
+ * @return      int
+*/
 int menuMarcasMoviles()
 {
     int seleccion = 0;
