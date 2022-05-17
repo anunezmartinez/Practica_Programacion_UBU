@@ -64,6 +64,7 @@ int solicitarOpcionMenu()
         printf("2 - El número de lineas del fichero.\n");
         printf("3 - La fila mas larga.\n");
         printf("4 - Añadir nueva fila.\n");
+        printf("5 - Fabricante de moda.");
         printf("0 - Salir.\n");
         // Le solicitamos al usuario un input y lo validamos.
         printf("\033[0;32m");
