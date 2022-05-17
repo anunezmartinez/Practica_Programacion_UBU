@@ -23,6 +23,7 @@ int añadirFila(FILE *);
 bool validarEntero(int, int, int, int, char);
 bool validarReal(float, float, float, int, char);
 int menuMarcasMoviles();
+void fabricanteDeModa(FILE *, char *);
 
 // Declaramos constantes para los colores.
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -73,7 +74,7 @@ int solicitarOpcionMenu()
 
         if (scanf("%i", &myInt) == 1) // Verificamos que el input es un numero.
         {
-            if (myInt < 5 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
+            if (myInt < 6 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
             {
                 seleccionarOpcion(myInt); // Una vez validado en input, se lo pasamos a seleccionarOpcion().
             }
@@ -162,6 +163,19 @@ void seleccionarOpcion(int seleccion)
         else
         {
             añadirFila(fptr);
+        }
+
+        break;
+    
+    case 5:
+        fptr = fopen("Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        if (fptr == NULL)
+        {
+            printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
+        }
+        else
+        {
+            fabricanteDeModa(fptr, "hola");
         }
 
         break;
@@ -286,342 +300,339 @@ int filaMasLarga(FILE *archivo)
  *              de los telefonos del archivo csv. Valida su entrada.
  * @param       FILE.
  * @return      int
-*/
+ */
 
 int añadirFila(FILE *archivo)
 {
-        //Declaramos las variables que vamos a utilizar.
+    // Declaramos las variables que vamos a utilizar.
 
-        int fc, int_memory, mobile_wt, n_cores, pc, ram, sc_h, sc_w = 0;
-        int battery_power = 0;
-        float clock_speed, m_dep = 0;
-        char str[128], *lf;
-        int leidos = 0;
-        
+    int fc, int_memory, mobile_wt, n_cores, pc, ram, sc_h, sc_w = 0;
+    int battery_power = 0;
+    float clock_speed, m_dep = 0;
+    char str[128], *lf;
+    int leidos = 0;
 
-        //Y le vamos a ir pidiendo al usuario los diferentes datos, validandolo con validarEntero() o validarReal().
-        printf("\nIntroduce la cantidad de batería, número entero entre 0 y 5000.\n");
+    // Y le vamos a ir pidiendo al usuario los diferentes datos, validandolo con validarEntero() o validarReal().
+    printf("\nIntroduce la cantidad de batería, número entero entre 0 y 5000.\n");
 
-        do
+    do
+    {
+        leidos = scanf("%d", &battery_power);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
         {
-            leidos = scanf("%d", &battery_power);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(battery_power, 0, 5000, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        int bluetooth;
-        bool ans;
-
-        do
-        {
-            printf("\nTiene bluetooth? Introduce 1 para si o 0 para false.\n");
-
-            leidos = scanf("%d", &bluetooth);
-            ans = bluetooth;
-
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-            if (bluetooth == 1 || bluetooth == 0)
-            {
-                printf("\nEl dato introducido es correcto. Respuesta : %d\n", ans);
-            }
-        } while (!(bluetooth == 1 || bluetooth == 0));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-
-        do
-        {
-            printf("\nIntroduce la velocidad de reloj, número float entre 0 y 4.0\n");
-
-            leidos = scanf("%f", &clock_speed);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarReal(clock_speed, 0, 4.0, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        bool ans1;
-        int dual_sim;
-
-        do
-        {
-            printf("\nTiene dual sim? Introduce 1 para si o 0 para false.\n");
-
-            leidos = scanf("%d", &dual_sim);
-            ans1 = dual_sim;
-
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-            if (dual_sim == 1 || dual_sim == 0)
-            {
-                printf("\nEl dato introducido es correcto. Respuesta : %d\n", ans1);
-            }
-        } while (!(dual_sim == 1 || dual_sim == 0));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nCuantos megapixeles tiene la camara frontal? Numero entero entre 0 y 20\n");
-
-            leidos = scanf("%d", &fc);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(fc, 0, 20, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-
-        int four_g;
-        bool ans2;
-
-        do
-        {
-            printf("\nTiene 4G? Introduce 1 para si o 0 para false.\n");
-
-            leidos = scanf("%d", &four_g);
-            ans2 = four_g;
-
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-            if (four_g == 1 || four_g == 0)
-            {
-                printf("\nEl dato introducido es correcto. Respuesta : %d\n", ans2);
-            }
-        } while (!(four_g == 1 || four_g == 0));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nIntroduce la cantidad de memoria, número entero entre 2 y 128.\n");
-
-            leidos = scanf("%d", &int_memory);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(int_memory, 2, 128, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nIntroduce la cantidad de grosor del movil, número float entre 0.1 y 2.0.\n");
-
-            leidos = scanf("%f", &m_dep);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-            }
+            *lf = '\n';
             leidos++;
-        } while (!(validarReal(m_dep, 0.1, 2.0, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nIntroduce la cantidad de peso del movil, número entero entre 50 y 500.\n");
-
-            leidos = scanf("%d", &mobile_wt);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(mobile_wt, 50, 500, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nIntroduce la cantidad de nucleos, número entero entre 1 y 16.\n");
-
-            leidos = scanf("%d", &n_cores);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(n_cores, 1, 16, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nIntroduce la cantidad de pixeles de la camara principal, número entero entre 0 y 40.\n");
-
-            leidos = scanf("%d", &pc);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(pc, 0, 40, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nIntroduce la cantidad de ram, número entero entre 128 y 2560.\n");
-
-            leidos = scanf("%d", &ram);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(ram, 128, 2560, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-
-        do
-        {
-            printf("\nIntroduce la altura de la pantalla, número entero entre 0 y 100.\n");
-
-            leidos = scanf("%d", &sc_h);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(sc_h, 0, 100, leidos, *lf)));
-
-        // Reseteamos variables.
-        leidos = 0;
-        lf = 0;
-        str[0] = 0;
-        do
-        {
-            printf("\nIntroduce la achura de la pantalla, número entero entre 0 y 100.\n");
-            leidos = scanf("%d", &sc_w);
-            fgets(str, sizeof(str), stdin);
-            if ((lf = strchr(str, '\n')) != NULL)
-            {
-                *lf = '\n';
-                leidos++;
-            }
-        } while (!(validarEntero(sc_w, 0, 100, leidos, *lf)));
-
-        //Aqui le pedimos al usuario que eliga entre un numero de marcas de teléfonos, dependiendo de lo
-        //que el usuario seleccione, enviaremos el nombre de esa marca a char destino.
-        char destino[50];
-        int marca = menuMarcasMoviles();
-        if (marca == 1)
-        {
-            char marca[] = "Apple";
-            strcpy(destino, marca);
         }
-        else if (marca == 2)
+    } while (!(validarEntero(battery_power, 0, 5000, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    int bluetooth;
+    bool ans;
+
+    do
+    {
+        printf("\nTiene bluetooth? Introduce 1 para si o 0 para false.\n");
+
+        leidos = scanf("%d", &bluetooth);
+        ans = bluetooth;
+
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
         {
-            char marca[] = "HTC";
-            strcpy(destino, marca);
+            *lf = '\n';
+            leidos++;
         }
-        else if (marca == 3)
+        if (bluetooth == 1 || bluetooth == 0)
         {
-            char marca[] = "LG";
-            strcpy(destino, marca);
+            printf("\nEl dato introducido es correcto. Respuesta : %d\n", ans);
         }
-        else if (marca == 4)
+    } while (!(bluetooth == 1 || bluetooth == 0));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+
+    do
+    {
+        printf("\nIntroduce la velocidad de reloj, número float entre 0 y 4.0\n");
+
+        leidos = scanf("%f", &clock_speed);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
         {
-            char marca[] = "Nokia";
-            strcpy(destino, marca);
+            *lf = '\n';
+            leidos++;
         }
-        else if (marca == 5)
+    } while (!(validarReal(clock_speed, 0, 4.0, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    bool ans1;
+    int dual_sim;
+
+    do
+    {
+        printf("\nTiene dual sim? Introduce 1 para si o 0 para false.\n");
+
+        leidos = scanf("%d", &dual_sim);
+        ans1 = dual_sim;
+
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
         {
-            char marca[] = "Samsung";
-            strcpy(destino, marca);
+            *lf = '\n';
+            leidos++;
         }
-        else if (marca == 6)
+        if (dual_sim == 1 || dual_sim == 0)
         {
-            char marca[] = "Xiaomi";
-            strcpy(destino, marca);
+            printf("\nEl dato introducido es correcto. Respuesta : %d\n", ans1);
         }
-        else if (marca == 7)
+    } while (!(dual_sim == 1 || dual_sim == 0));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nCuantos megapixeles tiene la camara frontal? Numero entero entre 0 y 20\n");
+
+        leidos = scanf("%d", &fc);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
         {
-            char marca[] = "ZTE";
-            strcpy(destino, marca);
+            *lf = '\n';
+            leidos++;
         }
+    } while (!(validarEntero(fc, 0, 20, leidos, *lf)));
 
-        //Ahora que ya tenemos todos los datos correctos y validados, creamos un nuevo archivo usando ¨w¨.
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
 
-        FILE *fp2 = fopen("Datos2.csv", "w");
+    int four_g;
+    bool ans2;
 
-        //Leemos caracter por caracter nuestro fichero y lo copiamos a este nuevo.
-        char c;
+    do
+    {
+        printf("\nTiene 4G? Introduce 1 para si o 0 para false.\n");
 
-        while ((c = fgetc(archivo)) != EOF)
+        leidos = scanf("%d", &four_g);
+        ans2 = four_g;
+
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
         {
-            fputc(c, fp2);
+            *lf = '\n';
+            leidos++;
         }
+        if (four_g == 1 || four_g == 0)
+        {
+            printf("\nEl dato introducido es correcto. Respuesta : %d\n", ans2);
+        }
+    } while (!(four_g == 1 || four_g == 0));
 
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nIntroduce la cantidad de memoria, número entero entre 2 y 128.\n");
 
-        //Una vez está creado, añadimos al final de fichero una nueva lina con la variables introducidas anteriormente.
-        fprintf(fp2, "%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
+        leidos = scanf("%d", &int_memory);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+            leidos++;
+        }
+    } while (!(validarEntero(int_memory, 2, 128, leidos, *lf)));
 
-        printf("\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
-        printf("\nNueva linea añadida al fichero.\n");
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nIntroduce la cantidad de grosor del movil, número float entre 0.1 y 2.0.\n");
 
+        leidos = scanf("%f", &m_dep);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+        }
+        leidos++;
+    } while (!(validarReal(m_dep, 0.1, 2.0, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nIntroduce la cantidad de peso del movil, número entero entre 50 y 500.\n");
+
+        leidos = scanf("%d", &mobile_wt);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+            leidos++;
+        }
+    } while (!(validarEntero(mobile_wt, 50, 500, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nIntroduce la cantidad de nucleos, número entero entre 1 y 16.\n");
+
+        leidos = scanf("%d", &n_cores);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+            leidos++;
+        }
+    } while (!(validarEntero(n_cores, 1, 16, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nIntroduce la cantidad de pixeles de la camara principal, número entero entre 0 y 40.\n");
+
+        leidos = scanf("%d", &pc);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+            leidos++;
+        }
+    } while (!(validarEntero(pc, 0, 40, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nIntroduce la cantidad de ram, número entero entre 128 y 2560.\n");
+
+        leidos = scanf("%d", &ram);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+            leidos++;
+        }
+    } while (!(validarEntero(ram, 128, 2560, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+
+    do
+    {
+        printf("\nIntroduce la altura de la pantalla, número entero entre 0 y 100.\n");
+
+        leidos = scanf("%d", &sc_h);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+            leidos++;
+        }
+    } while (!(validarEntero(sc_h, 0, 100, leidos, *lf)));
+
+    // Reseteamos variables.
+    leidos = 0;
+    lf = 0;
+    str[0] = 0;
+    do
+    {
+        printf("\nIntroduce la achura de la pantalla, número entero entre 0 y 100.\n");
+        leidos = scanf("%d", &sc_w);
+        fgets(str, sizeof(str), stdin);
+        if ((lf = strchr(str, '\n')) != NULL)
+        {
+            *lf = '\n';
+            leidos++;
+        }
+    } while (!(validarEntero(sc_w, 0, 100, leidos, *lf)));
+
+    // Aqui le pedimos al usuario que eliga entre un numero de marcas de teléfonos, dependiendo de lo
+    // que el usuario seleccione, enviaremos el nombre de esa marca a char destino.
+    char destino[50];
+    int marca = menuMarcasMoviles();
+    if (marca == 1)
+    {
+        char marca[] = "Apple";
+        strcpy(destino, marca);
+    }
+    else if (marca == 2)
+    {
+        char marca[] = "HTC";
+        strcpy(destino, marca);
+    }
+    else if (marca == 3)
+    {
+        char marca[] = "LG";
+        strcpy(destino, marca);
+    }
+    else if (marca == 4)
+    {
+        char marca[] = "Nokia";
+        strcpy(destino, marca);
+    }
+    else if (marca == 5)
+    {
+        char marca[] = "Samsung";
+        strcpy(destino, marca);
+    }
+    else if (marca == 6)
+    {
+        char marca[] = "Xiaomi";
+        strcpy(destino, marca);
+    }
+    else if (marca == 7)
+    {
+        char marca[] = "ZTE";
+        strcpy(destino, marca);
+    }
+
+    // Ahora que ya tenemos todos los datos correctos y validados, creamos un nuevo archivo usando ¨w¨.
+
+    FILE *fp2 = fopen("Datos2.csv", "w");
+
+    // Leemos caracter por caracter nuestro fichero y lo copiamos a este nuevo.
+    char c;
+
+    while ((c = fgetc(archivo)) != EOF)
+    {
+        fputc(c, fp2);
+    }
+
+    // Una vez está creado, añadimos al final de fichero una nueva lina con la variables introducidas anteriormente.
+    fprintf(fp2, "%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
+
+    printf("\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
+    printf("\nNueva linea añadida al fichero.\n");
 
     return 0;
 }
@@ -632,7 +643,7 @@ int añadirFila(FILE *archivo)
  * @discussion  Esta funcion valida los datos enteros introducidos por el usuario, verificando que se ha pulsado enter, el limite superior e inferior y leidos es = 2.
  * @param       int, int, int, int , int, char.
  * @return      bool
-*/
+ */
 bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
 {
     if (leidos == 2)
@@ -664,7 +675,7 @@ bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
  * @discussion  Esta funcion valida los datos reales introducidos por el usuario, verificando que se ha pulsado enter, el limite superior e inferior y leidos es = 2.
  * @param       int, int, int, int , int, char.
  * @return      bool
-*/
+ */
 bool validarReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
 {
     if (leidos == 2)
@@ -756,4 +767,53 @@ int menuMarcasMoviles()
     } while (loop == 0);
 
     return seleccion;
+}
+void fabricanteDeModa(FILE *archivo, char *marca)
+{
+
+    int xiaomi = 0;
+    int samsung = 0;
+    int htc = 0;
+    int lg = 0; 
+    int zte = 0;
+    int nokia = 0;
+    int apple = 0;
+
+    char str[1000];
+
+    while (fgets(str, sizeof(str), archivo) != NULL) // Recorremos el fichero linea por linea.
+    {
+        if (strstr(str, "Apple"))
+        {
+            apple++;
+        }
+        else if (strstr(str, "Xiaomi"))
+        {
+            xiaomi++;
+        }
+        else if (strstr(str, "Samsung"))
+        {
+            samsung++;
+        }
+        else if (strstr(str, "HTC"))
+        {
+            htc++;
+        }
+        else if (strstr(str, "LG"))
+        {
+            lg++;
+        }
+        else if (strstr(str, "ZTE"))
+        {
+            zte++;
+        }
+        else if (strstr(str, "Nokia"))
+        {
+            nokia++;
+        }
+
+        printf("\n%d %d %d %d %d %d %d\n", xiaomi, samsung, htc, lg, zte, nokia, apple);
+        
+
+    }
 }
