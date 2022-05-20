@@ -24,6 +24,15 @@ bool validarEntero(int, int, int, int, char);
 bool validarReal(float, float, float, int, char);
 int menuMarcasMoviles();
 void fabricanteDeModa(FILE *, char *);
+void consumirNuevaLinea();
+{
+    int c;
+    do
+    {
+        c = getchar();
+    } while (c != EOF && c != '\n');
+}
+
 
 // Declaramos constantes para los colores.
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -90,7 +99,7 @@ int solicitarOpcionMenu()
             printf(ANSI_COLOR_RED "\nEl dato introducido es erroneo.\n" ANSI_COLOR_RED);
         }
 
-        // fflush(stdin); // Limpiamos el buffer.
+        consumirNuevaLinea();
 
         printf(ANSI_COLOR_WHITE "\nQuieres continuar?(y / Cualquier otro input para salir)\n" ANSI_COLOR_WHITE); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
 
@@ -576,6 +585,8 @@ int añadirFila(FILE *archivo)
         }
     } while (!(validarEntero(sc_w, 0, 100, leidos, *lf)));
 
+    consumirNuevaLinea();
+
     // Aqui le pedimos al usuario que eliga entre un numero de marcas de teléfonos, dependiendo de lo
     // que el usuario seleccione, enviaremos el nombre de esa marca a char destino.
     char destino[50];
@@ -816,4 +827,22 @@ void fabricanteDeModa(FILE *archivo, char *marca)
         
 
     }
+    arr[7][7] = {0,apple,xiaomi,samsung,htc,lg,zte,nokia};
+
+    for (int i = 1; i < n; ++i) {
+        if (arr[0] < arr[i]) {
+            arr[0] = arr[i];
+        }
+    }
+
+    printf("Largest element = %.2lf", arr[0]);
+}
+
+void consumirNuevaLinea()
+{
+    int c;
+    do
+    {
+        c = getchar();
+    } while (c != EOF && c != '\n');
 }
