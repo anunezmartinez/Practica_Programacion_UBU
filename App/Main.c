@@ -193,9 +193,10 @@ void seleccionarOpcion(int seleccion)
         {
             int minimo, maximo;
             calcularMinMaxBateria(fptr,&minimo,&maximo);
-            printf("La cantidad mínima de batería en el fichero es : %i\n", minimo);
-            printf("La cantidad máxima de batería en el fichero es :\n", maximo);
-            calcularMediaBateria(fptr);
+            printf("La cantidad minima de bateria en el fichero es : %i\n", minimo);
+            printf("La cantidad maxima de bateria en el fichero es : %i\n", maximo);
+            rewind(fptr);
+            printf("La media de bateria en el fichero es : %.2f mAh\n", calcularMediaBateria(fptr));
 
         }
         break;
@@ -932,6 +933,5 @@ float calcularMediaBateria(FILE *archivo)
         }
     }
     media = sumaValores / count;
-    printf("La media de la bateria es : %.2f mAh", media);
     return media;
 }
