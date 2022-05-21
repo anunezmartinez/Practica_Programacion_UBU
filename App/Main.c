@@ -872,8 +872,27 @@ void consumirNuevaLinea()
 void calcularMinMaxBateria(FILE *archivo, int *minimo, int *maximo){
     int count = 0;
     char buffer[400];
-    int temp = 0;
-    int temp2 = 0;
+    
+
+    while (fgets(buffer, 400, archivo) != NULL)
+    {
+        char *token = strtok(buffer, ",");
+        if (token && token != NULL)
+        {
+            count++;
+            if (count > 1)
+            {
+                int b = atoi(token);
+                if (b >= *maximo)
+                {
+                    *maximo = b;
+                }
+            }
+        }
+    }
+    count = 0;
+    rewind(archivo);
+    *minimo = *maximo;
 
     while (fgets(buffer, 400, archivo) != NULL)
     {
@@ -884,25 +903,9 @@ void calcularMinMaxBateria(FILE *archivo, int *minimo, int *maximo){
             if (count > 1)
             {
                 int a = atoi(token);
-                if(a <= *minimo){
+                if (a <= *minimo)
+                {
                     *minimo = a;
-                }
-            }
-        }
-    }
-    count = 0;
-    rewind(archivo);
-    while (fgets(buffer, 400, archivo) != NULL)
-    {
-        char *token = strtok(buffer, ",");
-        if (token && token != NULL)
-        {
-            count++;
-            if (count > 1)
-            {
-                int b = atoi(token);
-                if(b >= *maximo){
-                    *maximo = b;
                 }
             }
         }
