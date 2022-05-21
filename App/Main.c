@@ -25,14 +25,6 @@ bool validarReal(float, float, float, int, char);
 int menuMarcasMoviles();
 void fabricanteDeModa(FILE *, char *);
 void consumirNuevaLinea();
-{
-    int c;
-    do
-    {
-        c = getchar();
-    } while (c != EOF && c != '\n');
-}
-
 
 // Declaramos constantes para los colores.
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -74,7 +66,7 @@ int solicitarOpcionMenu()
         printf("2 - El número de lineas del fichero.\n");
         printf("3 - La fila mas larga.\n");
         printf("4 - Añadir nueva fila.\n");
-        printf("5 - Fabricante de moda.");
+        printf("5 - Fabricante de moda.\n");
         printf("0 - Salir.\n");
         // Le solicitamos al usuario un input y lo validamos.
         printf("\033[0;32m");
@@ -175,7 +167,7 @@ void seleccionarOpcion(int seleccion)
         }
 
         break;
-    
+
     case 5:
         fptr = fopen("Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
@@ -785,7 +777,7 @@ void fabricanteDeModa(FILE *archivo, char *marca)
     int xiaomi = 0;
     int samsung = 0;
     int htc = 0;
-    int lg = 0; 
+    int lg = 0;
     int zte = 0;
     int nokia = 0;
     int apple = 0;
@@ -823,19 +815,32 @@ void fabricanteDeModa(FILE *archivo, char *marca)
             nokia++;
         }
 
-        printf("\n%d %d %d %d %d %d %d\n", xiaomi, samsung, htc, lg, zte, nokia, apple);
-        
-
+        //printf("\n%d %d %d %d %d %d %d\n", xiaomi, samsung, htc, lg, zte, nokia, apple);
     }
-    arr[7][7] = {0,apple,xiaomi,samsung,htc,lg,zte,nokia};
+    char marcas[7][10] =
+        {"apple",
+         "xiaomi",
+         "samsung",
+         "htc",
+         "lg",
+         "zte",
+         "nokia"};
 
-    for (int i = 1; i < n; ++i) {
-        if (arr[0] < arr[i]) {
-            arr[0] = arr[i];
+    int valores[7] = {apple, xiaomi, samsung, htc, lg, zte, nokia};
+    int i;
+    int maxVal = valores[0];
+    int pos = 0;
+
+    for (i = 1; i < 7; ++i)
+    {
+        if (valores[i] > maxVal)
+        {
+            maxVal = valores[i];
+            // Find the index of the max value
+            pos = i;
         }
     }
-
-    printf("Largest element = %.2lf", arr[0]);
+    printf("La marca de moda es : %s", marcas[pos]);
 }
 
 void consumirNuevaLinea()
