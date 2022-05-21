@@ -25,14 +25,14 @@ bool validarReal(float, float, float, int, char);
 int menuMarcasMoviles();
 void fabricanteDeModa(FILE *, char *);
 void consumirNuevaLinea();
+void calcularMinMaxBateria(FILE *, int *, int *);
+float calcularMediaBateria(FILE *);
 
 // Declaramos constantes para los colores.
 #define ANSI_COLOR_RED "\x1b[31m"
 #define ANSI_COLOR_GREEN "\x1b[32m"
 #define ANSI_COLOR_WHITE "\x1b[37m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
-
-#define SIZE (1024 * 1024)
 
 int main()
 {
@@ -176,7 +176,9 @@ void seleccionarOpcion(int seleccion)
         }
         else
         {
-            fabricanteDeModa(fptr, "hola");
+            char marca[10];
+            fabricanteDeModa(fptr, marca);
+            printf("La marca de moda es : %s\n", marca); // Not working (already tried changing to %c)
         }
 
         break;
@@ -814,8 +816,6 @@ void fabricanteDeModa(FILE *archivo, char *marca)
         {
             nokia++;
         }
-
-        //printf("\n%d %d %d %d %d %d %d\n", xiaomi, samsung, htc, lg, zte, nokia, apple);
     }
     char marcas[7][10] =
         {"apple",
@@ -836,11 +836,11 @@ void fabricanteDeModa(FILE *archivo, char *marca)
         if (valores[i] > maxVal)
         {
             maxVal = valores[i];
-            // Find the index of the max value
             pos = i;
         }
     }
-    printf("La marca de moda es : %s", marcas[pos]);
+    strcpy(marca, marcas[pos]); 
+    fclose(archivo);
 }
 
 void consumirNuevaLinea()
