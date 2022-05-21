@@ -75,7 +75,7 @@ int solicitarOpcionMenu()
 
         if (scanf("%i", &myInt) == 1) // Verificamos que el input es un numero.
         {
-            if (myInt < 6 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
+            if (myInt < 7 && myInt > -1) // Verificamos que el input está en el rango que nos interesa.
             {
                 seleccionarOpcion(myInt); // Una vez validado en input, se lo pasamos a seleccionarOpcion().
             }
@@ -181,6 +181,23 @@ void seleccionarOpcion(int seleccion)
             printf("La marca de moda es : %s\n", marca); // Not working (already tried changing to %c)
         }
 
+        break;
+
+    case 6:
+        fptr = fopen("Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        if (fptr == NULL)
+        {
+            printf("Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()");
+        }
+        else
+        {
+            int minimo, maximo;
+            calcularMinMaxBateria(fptr,&minimo,&maximo);
+            printf("La cantidad mínima de batería en el fichero es : %i\n", minimo);
+            printf("La cantidad máxima de batería en el fichero es :\n", maximo);
+            calcularMediaBateria(fptr);
+
+        }
         break;
     }
 }
@@ -850,6 +867,46 @@ void consumirNuevaLinea()
     {
         c = getchar();
     } while (c != EOF && c != '\n');
+}
+
+void calcularMinMaxBateria(FILE *archivo, int *minimo, int *maximo){
+    int count = 0;
+    char buffer[400];
+    int temp = 0;
+    int temp2 = 0;
+
+    while (fgets(buffer, 400, archivo) != NULL)
+    {
+        char *token = strtok(buffer, ",");
+        if (token && token != NULL)
+        {
+            count++;
+            if (count > 1)
+            {
+                int a = atoi(token);
+                if(a <= *minimo){
+                    *minimo = a;
+                }
+            }
+        }
+    }
+    count = 0;
+    rewind(archivo);
+    while (fgets(buffer, 400, archivo) != NULL)
+    {
+        char *token = strtok(buffer, ",");
+        if (token && token != NULL)
+        {
+            count++;
+            if (count > 1)
+            {
+                int b = atoi(token);
+                if(b >= *maximo){
+                    *maximo = b;
+                }
+            }
+        }
+    }
 }
 
 float calcularMediaBateria(FILE *archivo)
