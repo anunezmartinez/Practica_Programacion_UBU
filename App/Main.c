@@ -851,3 +851,27 @@ void consumirNuevaLinea()
         c = getchar();
     } while (c != EOF && c != '\n');
 }
+
+float calcularMediaBateria(FILE *archivo)
+{
+    int count = 0;
+    int sumaValores = 0;
+    float media = 0;
+    char buffer[400];
+    while (fgets(buffer, 400, archivo) != NULL)
+    {
+        char *token = strtok(buffer, ",");
+        if (token && token != NULL)
+        {
+            count++;
+            if (count > 1)
+            {
+                int n = atoi(token);
+                sumaValores = sumaValores + n;
+            }
+        }
+    }
+    media = sumaValores / count;
+    printf("La media de la bateria es : %.2f mAh", media);
+    return media;
+}
