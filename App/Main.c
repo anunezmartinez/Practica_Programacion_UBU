@@ -67,6 +67,7 @@ int solicitarOpcionMenu()
         printf("3 - La fila mas larga.\n");
         printf("4 - Añadir nueva fila.\n");
         printf("5 - Fabricante de moda.\n");
+        printf("6 - Calcular bateria minima, maxima y media.\n");
         printf("0 - Salir.\n");
         // Le solicitamos al usuario un input y lo validamos.
         printf("\033[0;32m");
@@ -91,11 +92,9 @@ int solicitarOpcionMenu()
             printf(ANSI_COLOR_RED "\nEl dato introducido es erroneo.\n" ANSI_COLOR_RED);
         }
 
-        consumirNuevaLinea();
-
         printf(ANSI_COLOR_WHITE "\nQuieres continuar?(y / Cualquier otro input para salir)\n" ANSI_COLOR_WHITE); // Le preguntamos al usuario y quiere volver a que le muestre el menú y seleccionar otra opcion.
 
-        scanf("%c", &loop);
+        scanf(" %c", &loop);
     } while (loop == 'y');
 
     return myInt;
@@ -156,7 +155,7 @@ void seleccionarOpcion(int seleccion)
 
         break;
     case 4:
-        fptr = fopen("Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
@@ -169,7 +168,7 @@ void seleccionarOpcion(int seleccion)
         break;
 
     case 5:
-        fptr = fopen("Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf(ANSI_COLOR_RED "Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()" ANSI_COLOR_RED);
@@ -184,7 +183,7 @@ void seleccionarOpcion(int seleccion)
         break;
 
     case 6:
-        fptr = fopen("Datos.csv", "r"); // Abrimos el fichero y validamos su apertura.
+        fptr = fopen("DatosTelefonosMoviles.csv", "r"); // Abrimos el fichero y validamos su apertura.
         if (fptr == NULL)
         {
             printf("Error, el archivo no ha podido ser abierto. Revisa el nombre del fichero, extension y ruta en seleccionarOpcion()");
@@ -193,10 +192,11 @@ void seleccionarOpcion(int seleccion)
         {
             int minimo, maximo;
             calcularMinMaxBateria(fptr,&minimo,&maximo);
-            printf("La cantidad minima de bateria en el fichero es : %i\n", minimo);
+            printf(ANSI_COLOR_GREEN"\nLa cantidad minima de bateria en el fichero es : %i\n", minimo);
             printf("La cantidad maxima de bateria en el fichero es : %i\n", maximo);
             rewind(fptr);
             printf("La media de bateria en el fichero es : %.2f mAh\n", calcularMediaBateria(fptr));
+            
 
         }
         break;
@@ -597,7 +597,6 @@ int añadirFila(FILE *archivo)
         }
     } while (!(validarEntero(sc_w, 0, 100, leidos, *lf)));
 
-    consumirNuevaLinea();
 
     // Aqui le pedimos al usuario que eliga entre un numero de marcas de teléfonos, dependiendo de lo
     // que el usuario seleccione, enviaremos el nombre de esa marca a char destino.
@@ -641,7 +640,7 @@ int añadirFila(FILE *archivo)
 
     // Ahora que ya tenemos todos los datos correctos y validados, creamos un nuevo archivo usando ¨w¨.
 
-    FILE *fp2 = fopen("Datos2.csv", "w");
+    FILE *fp2 = fopen("DatosTelefonosMoviles2.csv", "w");
 
     // Leemos caracter por caracter nuestro fichero y lo copiamos a este nuevo.
     char c;
@@ -656,6 +655,8 @@ int añadirFila(FILE *archivo)
 
     printf("\n%d,%d,%0.1f,%d,%d,%d,%d,%0.1f,%d,%d,%d,%d,%d,%d,%s", battery_power, ans, clock_speed, ans1, fc, ans2, int_memory, m_dep, mobile_wt, n_cores, pc, ram, sc_h, sc_w, destino);
     printf("\nNueva linea añadida al fichero.\n");
+    rewind(fp2);
+    rewind(archivo);
 
     return 0;
 }
@@ -669,13 +670,13 @@ int añadirFila(FILE *archivo)
  */
 bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
 {
-    if (leidos == 2)
+    if (leidos == 2)//Si leidos el dos, verificamos que está en el rango inferior y superior.
     {
         if (num >= lim_inf && num <= lim_sup)
         {
             printf("\nEl numero leido es valido.\n");
 
-            return true;
+            return true;//Y devolvemos true, si no, mostramos un error.
         }
         else
         {
@@ -685,7 +686,7 @@ bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
         }
     }
     else
-    {
+    {   //Error de que el tipo de dato en no es correcto.
         printf("\nEl input no se ha leido correctamente.\n");
         printf("\nVuelve a introducir el número\n");
         return false;
@@ -701,22 +702,22 @@ bool validarEntero(int num, int lim_inf, int lim_sup, int leidos, char enter)
  */
 bool validarReal(float num, float lim_inf, float lim_sup, int leidos, char enter)
 {
-    if (leidos == 2)
+    if (leidos == 2)//Si leidos el dos, verificamos que está en el rango inferior y superior.
     {
         if (num >= lim_inf && num <= lim_sup)
         {
             printf("\nNúmero válido.\n");
-            return true;
+            return true;//Y devolvemos true, si no, mostramos un error.
         }
         else
-        {
+        {   //Error que está fuera del rango superior e inferior.
             printf("\nEl numero está fuera de rango.\n");
             printf("\nVuelve a introducir el número\n");
             return false;
         }
     }
     else
-    {
+    {   //Error de que el tipo de dato en no es correcto.
         printf("\nEl input no ha leido correctamente.\n");
         printf("\nVuelve a introducir el número\n");
         return false;
@@ -734,7 +735,7 @@ bool validarReal(float num, float lim_inf, float lim_sup, int leidos, char enter
 int menuMarcasMoviles()
 {
     int seleccion = 0;
-
+    //Mostramos una lista de marcas a elegir.
     printf("\n1 - Apple");
     printf("\n2 - HTC");
     printf("\n3 - LG");
@@ -745,7 +746,7 @@ int menuMarcasMoviles()
 
     printf("\nSelecciona una opcion de la lista.");
     int loop = 0;
-    do
+    do //En base al input de usuario, seleccionamos su opcion usando un switch case y verificamos que su input esté dentro del rango.
     {
         if (scanf("%i", &seleccion) == 1)
         {
@@ -777,7 +778,7 @@ int menuMarcasMoviles()
                 }
 
                 return seleccion;
-            }
+            }//Si no, devolvemos un error y el bucle se repite.
             else
             {
                 printf("El numero introducido está fuera de rango.");
@@ -788,12 +789,19 @@ int menuMarcasMoviles()
             printf("El dato introducido no es un número.");
         }
     } while (loop == 0);
-
+    //Devolvemos su seleccion.
     return seleccion;
 }
+/*!
+ * @function    fabricanteDeModa
+ * @abstract    Muestra por pantalla el fabricante que mas aparece en el fichero.
+ * @discussion  Esta funcion muestra al usuario la marca que mas aparece en el fichero calcuándolo en base a recorrer el mismo.
+ * @param       FILE, *char
+ * @return      void
+*/
 void fabricanteDeModa(FILE *archivo, char *marca)
 {
-
+    //Declaramos variables que almacenarán la cantidad de veces que aparecen esas marcas en el fichero.
     int xiaomi = 0;
     int samsung = 0;
     int htc = 0;
@@ -805,7 +813,9 @@ void fabricanteDeModa(FILE *archivo, char *marca)
     char str[1000];
 
     while (fgets(str, sizeof(str), archivo) != NULL) // Recorremos el fichero linea por linea.
-    {
+    {   
+        //Cuando una marca aparece en el fichero, su correspondiente variable incrementará en uno.
+        //Esto se repetirá para todas las marcas.
         if (strstr(str, "Apple"))
         {
             apple++;
@@ -835,6 +845,7 @@ void fabricanteDeModa(FILE *archivo, char *marca)
             nokia++;
         }
     }
+    //Declaramos un array de strings.
     char marcas[7][10] =
         {"apple",
          "xiaomi",
@@ -843,12 +854,14 @@ void fabricanteDeModa(FILE *archivo, char *marca)
          "lg",
          "zte",
          "nokia"};
-
+    //Declaramos un array con los valores de las marcas.
     int valores[7] = {apple, xiaomi, samsung, htc, lg, zte, nokia};
+
     int i;
     int maxVal = valores[0];
     int pos = 0;
 
+    //Ahora en el array de valores, calculamos cual es el mayor y en base a su posicion en el array, sacamos del array de marcas su nombre.
     for (i = 1; i < 7; ++i)
     {
         if (valores[i] > maxVal)
@@ -857,54 +870,54 @@ void fabricanteDeModa(FILE *archivo, char *marca)
             pos = i;
         }
     }
+    //Copiamos usando strcpy el valor que hemos sacado en el bucle anterior su contenido a la variable marca, que la recibe por referencia.
     strcpy(marca, marcas[pos]); 
+    //Cerramos el fichero.
     fclose(archivo);
 }
-
-void consumirNuevaLinea()
-{
-    int c;
-    do
-    {
-        c = getchar();
-    } while (c != EOF && c != '\n');
-}
-
+/*!
+ * @function    calcularMinMaxBateria
+ * @abstract    Muestra la bateria minima y maxima.
+ * @discussion  Esta funcion calcula la cantidad minima de bateria y la cantidad maxima y las devuelve por referencia a los argumentos de la funcion.
+ * @param       FILE, *int, *int 
+ * @return      void
+*/
 void calcularMinMaxBateria(FILE *archivo, int *minimo, int *maximo){
     int count = 0;
     char buffer[400];
     
 
-    while (fgets(buffer, 400, archivo) != NULL)
+    while (fgets(buffer, 400, archivo) != NULL)//Recorremos el fichero.
     {
-        char *token = strtok(buffer, ",");
+        char *token = strtok(buffer, ",");//Extraemos el valor la bateria leyendo hasta la primera coma.
         if (token && token != NULL)
         {
             count++;
-            if (count > 1)
+            if (count > 1)//Nos saltamos la cabezera.
             {
                 int b = atoi(token);
-                if (b >= *maximo)
+                if (b >= *maximo)//Y vamos revisando si el siguiente valor el mayor al anterior para conseguir el mas grande.
                 {
                     *maximo = b;
                 }
             }
         }
     }
+    //Resetamos la variables para ahora extraer el valor minimo.
     count = 0;
     rewind(archivo);
     *minimo = *maximo;
 
-    while (fgets(buffer, 400, archivo) != NULL)
+    while (fgets(buffer, 400, archivo) != NULL)//Extraemos el valor la bateria leyendo hasta la primera coma.
     {
         char *token = strtok(buffer, ",");
         if (token && token != NULL)
         {
             count++;
-            if (count > 1)
+            if (count > 1)//Nos saltamos la cabezera.
             {
                 int a = atoi(token);
-                if (a <= *minimo)
+                if (a <= *minimo)//Y vamos revisando si el siguiente valor el mayor al anterior para conseguir el mas pequeño.
                 {
                     *minimo = a;
                 }
@@ -913,25 +926,32 @@ void calcularMinMaxBateria(FILE *archivo, int *minimo, int *maximo){
     }
 }
 
+/*!
+ * @function    calcularMediaBateria
+ * @abstract    Media total de la batería.
+ * @discussion  Esta funcion calcula la media total del parámetro de bateria en el fichero DatosTelefonosMoviles.csv y devuelve el valor.
+ * @param       FILE
+ * @return      float
+*/
 float calcularMediaBateria(FILE *archivo)
 {
     int count = 0;
     int sumaValores = 0;
     float media = 0;
     char buffer[400];
-    while (fgets(buffer, 400, archivo) != NULL)
+    while (fgets(buffer, 400, archivo) != NULL) //Recorremos el fichero.
     {
-        char *token = strtok(buffer, ",");
+        char *token = strtok(buffer, ","); //Extraemos los datos hasta la primera coma.
         if (token && token != NULL)
         {
-            count++;
+            count++; //Contamos la cantidad de valores que estamos leyendo para luego dividirlo.
             if (count > 1)
             {
                 int n = atoi(token);
-                sumaValores = sumaValores + n;
+                sumaValores = sumaValores + n; //Hacemos la suma de todos los valores en bateria.
             }
         }
     }
-    media = sumaValores / count;
-    return media;
+    media = sumaValores / count; //Dividimos la cantidad de bateria sumada entre la cantidad de campos que hemos leido para conseguir la media.
+    return media; //Devolvemos la media calculada.
 }
