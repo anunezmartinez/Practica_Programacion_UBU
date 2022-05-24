@@ -1,4 +1,4 @@
-/*
+﻿/*
     nombre_programa: Main.c
     descripción: Práctica Obligatoria de Programación, uso de ficheros, validación de input y bucles.
     @autor: Adrián Núñez Martínez
