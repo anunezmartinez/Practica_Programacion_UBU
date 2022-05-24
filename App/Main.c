@@ -190,7 +190,7 @@ void seleccionarOpcion(int seleccion)
         }
         else
         {
-            int minimo, maximo;
+            int minimo = 0, maximo = 0;
             calcularMinMaxBateria(fptr,&minimo,&maximo);
             printf(ANSI_COLOR_GREEN"\nLa cantidad minima de bateria en el fichero es : %i\n", minimo);
             printf("La cantidad maxima de bateria en el fichero es : %i\n", maximo);
