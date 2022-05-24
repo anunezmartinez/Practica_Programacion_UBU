@@ -945,13 +945,13 @@ float calcularMediaBateria(FILE *archivo)
         if (token && token != NULL)
         {
             count++; //Contamos la cantidad de valores que estamos leyendo para luego dividirlo.
-            if (count > 1)
+            if (count >= 1)
             {
                 int n = atoi(token);
                 sumaValores = sumaValores + n; //Hacemos la suma de todos los valores en bateria.
             }
         }
     }
-    media = sumaValores / count; //Dividimos la cantidad de bateria sumada entre la cantidad de campos que hemos leido para conseguir la media.
+    media = sumaValores / (count - 1); //Dividimos la cantidad de bateria sumada entre la cantidad de campos que hemos leido para conseguir la media.
     return media; //Devolvemos la media calculada.
 }
